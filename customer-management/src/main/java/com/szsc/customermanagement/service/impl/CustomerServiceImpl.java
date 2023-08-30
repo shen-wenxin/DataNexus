@@ -1,9 +1,11 @@
-package com.szsc.customermanagement.service;
+package com.szsc.customermanagement.service.impl;
 
 import com.szsc.customermanagement.dto.CustomerDto;
 import com.szsc.customermanagement.entity.Customer;
 import com.szsc.customermanagement.exception.CustomerNotFoundException;
 import com.szsc.customermanagement.repository.CustomerRepository;
+import com.szsc.customermanagement.service.CustomerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
