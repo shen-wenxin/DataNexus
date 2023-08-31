@@ -45,14 +45,12 @@
 ### registered_location
 | 字段名 | 数据类型 | 描述 |
 | ------- | ------- | ------- |
-|location_id  | INT  | 注册地ID（主键）|
-|company_id | INT | 公司ID（外键，关联主表），索引|
-|location| ENUM | 公司注册地（中国大陆、中国香港、境外），索引|
+|company_id | INT | 公司ID 主键|
+|location| ENUM | 公司注册地（中国大陆、中国香港、境外）|
 
 ### business_scope
 | 字段名 | 数据类型 | 描述 |
 | ------- | ------- | ------- |
-|scope_id  | INT  | 经营范围ID（主键）|
 |company_id| INT| 公司ID（外键，与主表关联，索引|
 |scope| VARCHAR(200)| 经营范围| 
 

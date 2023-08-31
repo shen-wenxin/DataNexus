@@ -1,6 +1,5 @@
 package com.szsc.customermanagement.repository.impl;
 
-import com.szsc.customermanagement.config.DatabaseConfig;
 import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.exception.CompanyNotFoundException;
 import com.szsc.customermanagement.repository.CompanyRepository;
