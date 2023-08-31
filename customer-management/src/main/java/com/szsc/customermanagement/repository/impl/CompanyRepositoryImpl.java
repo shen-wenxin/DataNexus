@@ -48,9 +48,9 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public void save(Company company) {
-        String sql = "INSERT INTO " + tableName + " (companyCode, companyName, companyAbbreviation, companyType) " +
-                "VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, company.getCompanyCode(), company.getCompanyName(),
+        String sql = "INSERT INTO " + tableName + " (company_id, company_code,company_name, company_abbreviation, company_type) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, company.getCompanyId(), company.getCompanyCode(), company.getCompanyName(),
                 company.getCompanyAbbreviation(), company.getCompanyType());
     }
 
@@ -72,5 +72,11 @@ public class CompanyRepositoryImpl implements CompanyRepository {
         if (rowsAffected == 0) {
             throw new CompanyNotFoundException("Company not found with ID: " + companyId);
         }
+    }
+
+    @Override
+    public int count() {
+        String sql = "SELECT COUNT(*) FROM " + tableName;
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }

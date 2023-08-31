@@ -1,5 +1,6 @@
 package com.szsc.customermanagement.service.impl;
 
+import com.szsc.customermanagement.config.AppConfig;
 import com.szsc.customermanagement.dto.CompanyDTO;
 import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.exception.CompanyNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +50,18 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void createCompany(CompanyDTO companyDTO) {
-        Company company = ModelMapperUtils.convertToEntity(companyDTO, Company.class);
+
+        int count = companyRepository.count() + 1;
+        String countString = String.format("%07d", count);
+        int CompanyId = Integer.parseInt(AppConfig.COMPANYID_PREFIX + countString);
+
+        Company company = new Company();
+        company.setCompanyId(CompanyId);
+        company.setCompanyCode(companyDTO.getCompanyCode());
+        company.setCompanyName(companyDTO.getCompanyName());
+        company.setCompanyAbbreviation(companyDTO.getCompanyAbbreviation());
+        company.setCompanyType(companyDTO.getCompanyType());
+
         companyRepository.save(company);
     }
 

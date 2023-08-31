@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    public static final String COMPANYID_PREFIX = "110"; 
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

@@ -17,4 +17,7 @@ public interface CompanyRepository {
     void update(Company company) throws CompanyNotFoundException;
 
     void delete(int companyId) throws CompanyNotFoundException;
+
+    int count();// count how many company
+
 }
