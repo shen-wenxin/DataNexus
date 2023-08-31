@@ -27,7 +27,7 @@ public class CustomerManagementApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("create_table_company_main_information.sql"));
+        populator.addScript(new ClassPathResource("create_table.sql"));
         DatabasePopulatorUtils.execute(populator, dataSource);
     }
 

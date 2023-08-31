@@ -19,6 +19,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    @ExceptionHandler(CompanyDetailedInformationNotFoundException.class)
+    public ResponseEntity<String> handleCompanyDetailedInformationNotFoundException(CompanyDetailedInformationNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    
+    @ExceptionHandler(RegisteredLocationNotFoundException.class)
+    public ResponseEntity<String> handleRegisteredLocationNotFoundException(RegisteredLocationNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+
     // ...
 
 }
