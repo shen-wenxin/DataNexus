@@ -49,7 +49,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void createCompany(CompanyDTO companyDTO) {
+    public int createCompany(CompanyDTO companyDTO) {
 
         int count = companyRepository.count() + 1;
         String countString = String.format("%07d", count);
@@ -63,6 +63,8 @@ public class CompanyServiceImpl implements CompanyService {
         company.setCompanyType(companyDTO.getCompanyType());
 
         companyRepository.save(company);
+
+        return CompanyId;
     }
 
     @Override

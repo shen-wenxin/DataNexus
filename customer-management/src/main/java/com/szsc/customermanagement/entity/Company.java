@@ -1,6 +1,8 @@
 package com.szsc.customermanagement.entity;
 
-import java.util.Objects;
+import java.math.BigDecimal;
+
+import com.szsc.customermanagement.enums.LocationEnum;
 
 public class Company {
 
@@ -9,6 +11,32 @@ public class Company {
     private String companyName;
     private String companyAbbreviation;
     private String companyType;
+    private LocationEnum registeredLocation;
+    private String unifiedSocialCredit;
+    private String registeredAddress;
+    private String registeredPhone;
+    private String companyEmail;
+    private String establishmentDate;
+    private BigDecimal registeredCapital;
+    private String legalRepresentativeName;
+    private String legalRepresentativePhone;
+    private String legalRepresentativeId;
+    private String industry;
+    private String businessScope;
+    private boolean isVerifiedCustomer;
+    private boolean isSzseMember;
+    private String szseMemberCode;
+    private String szseMemberAbbreviation;
+    private String customerStatus;
+    private String country;
+    private String province;
+    private String city;
+    private String businessLicenseNumber;
+    private String businessLicenseExpiry;
+    private String primaryContactName;
+    private String primaryContactPosition;
+    private String primaryContactPhone;
+    private String primaryContactEmail;
 
     public int getCompanyId() {
         return companyId;
@@ -50,7 +78,214 @@ public class Company {
         this.companyType = companyType;
     }
 
-    // toString()
+    public LocationEnum getRegisteredLocation() {
+        return registeredLocation;
+    }
+
+    public void setRegisteredLocation(LocationEnum registeredLocation) {
+        this.registeredLocation = registeredLocation;
+    }
+
+    public String getUnifiedSocialCredit() {
+        return unifiedSocialCredit;
+    }
+
+    public void setUnifiedSocialCredit(String unifiedSocialCredit) {
+        this.unifiedSocialCredit = unifiedSocialCredit;
+    }
+
+    public String getRegisteredAddress() {
+        return registeredAddress;
+    }
+
+    public void setRegisteredAddress(String registeredAddress) {
+        this.registeredAddress = registeredAddress;
+    }
+
+    public String getRegisteredPhone() {
+        return registeredPhone;
+    }
+
+    public void setRegisteredPhone(String registeredPhone) {
+        this.registeredPhone = registeredPhone;
+    }
+
+    public String getCompanyEmail() {
+        return companyEmail;
+    }
+
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
+    }
+
+    public String getEstablishmentDate() {
+        return establishmentDate;
+    }
+
+    public void setEstablishmentDate(String establishmentDate) {
+        this.establishmentDate = establishmentDate;
+    }
+
+    public BigDecimal getRegisteredCapital() {
+        return registeredCapital;
+    }
+
+    public void setRegisteredCapital(BigDecimal registeredCapital) {
+        this.registeredCapital = registeredCapital;
+    }
+
+    public String getLegalRepresentativeName() {
+        return legalRepresentativeName;
+    }
+
+    public void setLegalRepresentativeName(String legalRepresentativeName) {
+        this.legalRepresentativeName = legalRepresentativeName;
+    }
+
+    public String getLegalRepresentativePhone() {
+        return legalRepresentativePhone;
+    }
+
+    public void setLegalRepresentativePhone(String legalRepresentativePhone) {
+        this.legalRepresentativePhone = legalRepresentativePhone;
+    }
+
+    public String getLegalRepresentativeId() {
+        return legalRepresentativeId;
+    }
+
+    public void setLegalRepresentativeId(String legalRepresentativeId) {
+        this.legalRepresentativeId = legalRepresentativeId;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
+    public String getBusinessScope() {
+        return businessScope;
+    }
+
+    public void setBusinessScope(String businessScope) {
+        this.businessScope = businessScope;
+    }
+
+    public boolean isVerifiedCustomer() {
+        return isVerifiedCustomer;
+    }
+
+    public void setVerifiedCustomer(boolean verifiedCustomer) {
+        isVerifiedCustomer = verifiedCustomer;
+    }
+
+    public boolean isSzseMember() {
+        return isSzseMember;
+    }
+
+    public void setSzseMember(boolean szseMember) {
+        isSzseMember = szseMember;
+    }
+
+    public String getSzseMemberCode() {
+        return szseMemberCode;
+    }
+
+    public void setSzseMemberCode(String szseMemberCode) {
+        this.szseMemberCode = szseMemberCode;
+    }
+
+    public String getSzseMemberAbbreviation() {
+        return szseMemberAbbreviation;
+    }
+
+    public void setSzseMemberAbbreviation(String szseMemberAbbreviation) {
+        this.szseMemberAbbreviation = szseMemberAbbreviation;
+    }
+
+    public String getCustomerStatus() {
+        return customerStatus;
+    }
+
+    public void setCustomerStatus(String customerStatus) {
+        this.customerStatus = customerStatus;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getBusinessLicenseNumber() {
+        return businessLicenseNumber;
+    }
+
+    public void setBusinessLicenseNumber(String businessLicenseNumber) {
+        this.businessLicenseNumber = businessLicenseNumber;
+    }
+
+    public String getBusinessLicenseExpiry() {
+        return businessLicenseExpiry;
+    }
+
+    public void setBusinessLicenseExpiry(String businessLicenseExpiry) {
+        this.businessLicenseExpiry = businessLicenseExpiry;
+    }
+
+    public String getPrimaryContactName() {
+        return primaryContactName;
+    }
+
+    public void setPrimaryContactName(String primaryContactName) {
+        this.primaryContactName = primaryContactName;
+    }
+
+    public String getPrimaryContactPosition() {
+        return primaryContactPosition;
+    }
+
+    public void setPrimaryContactPosition(String primaryContactPosition) {
+        this.primaryContactPosition = primaryContactPosition;
+    }
+
+    public String getPrimaryContactPhone() {
+        return primaryContactPhone;
+    }
+
+    public void setPrimaryContactPhone(String primaryContactPhone) {
+        this.primaryContactPhone = primaryContactPhone;
+    }
+
+    public String getPrimaryContactEmail() {
+        return primaryContactEmail;
+    }
+
+    public void setPrimaryContactEmail(String primaryContactEmail) {
+        this.primaryContactEmail = primaryContactEmail;
+    }
+
     @Override
     public String toString() {
         return "Company{" +
@@ -59,26 +294,32 @@ public class Company {
                 ", companyName='" + companyName + '\'' +
                 ", companyAbbreviation='" + companyAbbreviation + '\'' +
                 ", companyType='" + companyType + '\'' +
+                ", registeredLocation='" + registeredLocation + '\'' +
+                ", unifiedSocialCredit='" + unifiedSocialCredit + '\'' +
+                ", registeredAddress='" + registeredAddress + '\'' +
+                ", registeredPhone='" + registeredPhone + '\'' +
+                ", companyEmail='" + companyEmail + '\'' +
+                ", establishmentDate='" + establishmentDate + '\'' +
+                ", registeredCapital=" + registeredCapital +
+                ", legalRepresentativeName='" + legalRepresentativeName + '\'' +
+                ", legalRepresentativePhone='" + legalRepresentativePhone + '\'' +
+                ", legalRepresentativeId='" + legalRepresentativeId + '\'' +
+                ", industry='" + industry + '\'' +
+                ", businessScope='" + businessScope + '\'' +
+                ", isVerifiedCustomer=" + isVerifiedCustomer +
+                ", isSzseMember=" + isSzseMember +
+                ", szseMemberCode='" + szseMemberCode + '\'' +
+                ", szseMemberAbbreviation='" + szseMemberAbbreviation + '\'' +
+                ", customerStatus='" + customerStatus + '\'' +
+                ", country='" + country + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", businessLicenseNumber='" + businessLicenseNumber + '\'' +
+                ", businessLicenseExpiry='" + businessLicenseExpiry + '\'' +
+                ", primaryContactName='" + primaryContactName + '\'' +
+                ", primaryContactPosition='" + primaryContactPosition + '\'' +
+                ", primaryContactPhone='" + primaryContactPhone + '\'' +
+                ", primaryContactEmail='" + primaryContactEmail + '\'' +
                 '}';
     }
-
-    //equals()
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Company company = (Company) o;
-        return companyId == company.companyId &&
-                Objects.equals(companyCode, company.companyCode) &&
-                Objects.equals(companyName, company.companyName) &&
-                Objects.equals(companyAbbreviation, company.companyAbbreviation) &&
-                Objects.equals(companyType, company.companyType);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, companyCode, companyName, companyAbbreviation, companyType);
-    }
-
-
 }

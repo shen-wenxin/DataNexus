@@ -1,9 +1,9 @@
 package com.szsc.customermanagement.enums;
 
 public enum LocationEnum {
-    CHINA_MAINLAND("chinaMainland"),
+    CHINA_MAINLAND("Mainland"),
     HONGKONG("HongKong"),
-    OVERSEAS("overseas");
+    OVERSEAS("Overseas");
 
     private final String displayName;
 

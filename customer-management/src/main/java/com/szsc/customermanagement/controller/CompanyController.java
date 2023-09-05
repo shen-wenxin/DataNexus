@@ -38,10 +38,10 @@ public class CompanyController {
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createCompany(@RequestBody CompanyDTO companyDTO) {
-        companyService.createCompany(companyDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/create")
+    public ResponseEntity<Integer> createCompany(@RequestBody CompanyDTO companyDTO) {
+        Integer companyId = companyService.createCompany(companyDTO);
+        return new ResponseEntity<>(companyId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{companyId}")

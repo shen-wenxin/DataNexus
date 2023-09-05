@@ -17,7 +17,7 @@ public interface CompanyService {
 
     List<CompanyDTO> getCompaniesByType(String companyType);
 
-    void createCompany(CompanyDTO companyDTO);
+    int createCompany(CompanyDTO companyDTO);
 
     void updateCompany(int companyId, CompanyDTO companyDTO) throws CompanyNotFoundException;
 

@@ -48,18 +48,52 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public void save(Company company) {
-        String sql = "INSERT INTO " + tableName + " (company_id, company_code,company_name, company_abbreviation, company_type) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, company.getCompanyId(), company.getCompanyCode(), company.getCompanyName(),
-                company.getCompanyAbbreviation(), company.getCompanyType());
+        String sql = "INSERT INTO " + tableName + " (companyId, companyCode, companyName, companyAbbreviation, " +
+                "companyType, registeredLocation, unifiedSocialCredit, registeredAddress, registeredPhone, " +
+                "companyEmail, establishmentDate, registeredCapital, legalRepresentativeName, " +
+                "legalRepresentativePhone, legalRepresentativeId, industry, businessScope, isVerifiedCustomer, " +
+                "isSzseMember, szseMemberCode, szseMemberAbbreviation, customerStatus, country, province, city, " +
+                "businessLicenseNumber, businessLicenseExpiry, primaryContactName, primaryContactPosition, " +
+                "primaryContactPhone, primaryContactEmail) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?)";
+        jdbcTemplate.update(sql, company.getCompanyCode(), company.getCompanyName(),
+                company.getCompanyAbbreviation(), company.getCompanyType(), company.getRegisteredLocation().getDisplayName(),
+                company.getUnifiedSocialCredit(), company.getRegisteredAddress(), company.getRegisteredPhone(),
+                company.getCompanyEmail(), company.getEstablishmentDate(), company.getRegisteredCapital(),
+                company.getLegalRepresentativeName(), company.getLegalRepresentativePhone(),
+                company.getLegalRepresentativeId(), company.getIndustry(), company.getBusinessScope(),
+                company.isVerifiedCustomer(), company.isSzseMember(), company.getSzseMemberCode(),
+                company.getSzseMemberAbbreviation(), company.getCustomerStatus(), company.getCountry(),
+                company.getProvince(), company.getCity(), company.getBusinessLicenseNumber(),
+                company.getBusinessLicenseExpiry(), company.getPrimaryContactName(),
+                company.getPrimaryContactPosition(), company.getPrimaryContactPhone(),
+                company.getPrimaryContactEmail());
     }
 
     @Override
     public void update(Company company) throws CompanyNotFoundException {
         String sql = "UPDATE " + tableName + " SET companyCode = ?, companyName = ?, companyAbbreviation = ?, " +
-                "companyType = ? WHERE companyId = ?";
+                "companyType = ?, registeredLocation = ?, unifiedSocialCredit = ?, registeredAddress = ?, " +
+                "registeredPhone = ?, companyEmail = ?, establishmentDate = ?, registeredCapital = ?, " +
+                "legalRepresentativeName = ?, legalRepresentativePhone = ?, legalRepresentativeId = ?, " +
+                "industry = ?, businessScope = ?, isVerifiedCustomer = ?, isSzseMember = ?, szseMemberCode = ?, " +
+                "szseMemberAbbreviation = ?, customerStatus = ?, country = ?, province = ?, city = ?, " +
+                "businessLicenseNumber = ?, businessLicenseExpiry = ?, primaryContactName = ?, " +
+                "primaryContactPosition = ?, primaryContactPhone = ?, primaryContactEmail = ? " +
+                "WHERE companyId = ?";
         int rowsAffected = jdbcTemplate.update(sql, company.getCompanyCode(), company.getCompanyName(),
-                company.getCompanyAbbreviation(), company.getCompanyType(), company.getCompanyId());
+                company.getCompanyAbbreviation(), company.getCompanyType(), company.getRegisteredLocation().getDisplayName(),
+                company.getUnifiedSocialCredit(), company.getRegisteredAddress(), company.getRegisteredPhone(),
+                company.getCompanyEmail(), company.getEstablishmentDate(), company.getRegisteredCapital(),
+                company.getLegalRepresentativeName(), company.getLegalRepresentativePhone(),
+                company.getLegalRepresentativeId(), company.getIndustry(), company.getBusinessScope(),
+                company.isVerifiedCustomer(), company.isSzseMember(), company.getSzseMemberCode(),
+                company.getSzseMemberAbbreviation(), company.getCustomerStatus(), company.getCountry(),
+                company.getProvince(), company.getCity(), company.getBusinessLicenseNumber(),
+                company.getBusinessLicenseExpiry(), company.getPrimaryContactName(),
+                company.getPrimaryContactPosition(), company.getPrimaryContactPhone(),
+                company.getPrimaryContactEmail(), company.getCompanyId());
         if (rowsAffected == 0) {
             throw new CompanyNotFoundException("Company not found with ID: " + company.getCompanyId());
         }

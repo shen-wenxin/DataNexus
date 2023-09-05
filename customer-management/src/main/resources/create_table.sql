@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS data_nexus_db.company_information (
-  company_id INT PRIMARY KEY,
+  company_id AUTO_INCREMENT INT PRIMARY KEY,
   company_code VARCHAR(50) NOT NULL,
   company_name VARCHAR(100) NOT NULL,
   company_abbreviation VARCHAR(50),
