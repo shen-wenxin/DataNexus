@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS data_nexus_db.company_information (
-  company_id AUTO_INCREMENT INT PRIMARY KEY,
+  company_id INT PRIMARY KEY AUTO_INCREMENT,
   company_code VARCHAR(50) NOT NULL,
   company_name VARCHAR(100) NOT NULL,
   company_abbreviation VARCHAR(50),
-  registered_location ENUM('Mainland', 'HongKong', 'Overseas'),
+  registered_location ENUM('中国大陆', '中国香港', '境外'),
   company_type VARCHAR(50),
   unified_social_credit VARCHAR(50),
   registered_address VARCHAR(200),
@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS data_nexus_db.company_information (
   legal_representative_id VARCHAR(50),
   industry VARCHAR(50),
   business_scope VARCHAR(200),
-  is_verified_customer BOOLEAN,
-  is_szse_member BOOLEAN,
+  verified_customer BOOLEAN,
+  szse_member BOOLEAN,
   szse_member_code VARCHAR(50),
   szse_member_abbreviation VARCHAR(50),
   customer_status VARCHAR(50),
@@ -35,3 +35,4 @@ CREATE TABLE IF NOT EXISTS data_nexus_db.company_information (
   INDEX idx_company_name (company_name),
   INDEX idx_unified_social_credit (unified_social_credit)
 );
+

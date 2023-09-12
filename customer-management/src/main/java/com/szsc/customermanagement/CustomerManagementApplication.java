@@ -11,6 +11,8 @@ import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import com.szsc.customermanagement.config.AppConfig;
 
+import java.nio.charset.Charset;
+
 import javax.sql.DataSource;
 
 @SpringBootApplication
@@ -21,12 +23,19 @@ public class CustomerManagementApplication implements CommandLineRunner {
     private DataSource dataSource;
 
     public static void main(String[] args) {
+
+        // 设置默认字符编码为 UTF-8
+        System.setProperty("file.encoding", "UTF-8");
+        Charset.defaultCharset();
+        
         SpringApplication.run(CustomerManagementApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        
+        populator.setSqlScriptEncoding("UTF-8");
         populator.addScript(new ClassPathResource("create_table.sql"));
         DatabasePopulatorUtils.execute(populator, dataSource);
     }

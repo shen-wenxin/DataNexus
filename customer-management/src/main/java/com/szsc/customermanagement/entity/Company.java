@@ -11,7 +11,7 @@ public class Company {
     private String companyName;
     private String companyAbbreviation;
     private String companyType;
-    private LocationEnum registeredLocation;
+    private String registeredLocation;
     private String unifiedSocialCredit;
     private String registeredAddress;
     private String registeredPhone;
@@ -23,8 +23,8 @@ public class Company {
     private String legalRepresentativeId;
     private String industry;
     private String businessScope;
-    private boolean isVerifiedCustomer;
-    private boolean isSzseMember;
+    private Boolean verifiedCustomer;
+    private Boolean szseMember;
     private String szseMemberCode;
     private String szseMemberAbbreviation;
     private String customerStatus;
@@ -78,11 +78,11 @@ public class Company {
         this.companyType = companyType;
     }
 
-    public LocationEnum getRegisteredLocation() {
+    public String getRegisteredLocation() {
         return registeredLocation;
     }
 
-    public void setRegisteredLocation(LocationEnum registeredLocation) {
+    public void setRegisteredLocation(String registeredLocation) {
         this.registeredLocation = registeredLocation;
     }
 
@@ -174,20 +174,20 @@ public class Company {
         this.businessScope = businessScope;
     }
 
-    public boolean isVerifiedCustomer() {
-        return isVerifiedCustomer;
+    public boolean getVerifiedCustomer() {
+        return verifiedCustomer;
     }
 
     public void setVerifiedCustomer(boolean verifiedCustomer) {
-        isVerifiedCustomer = verifiedCustomer;
+        this.verifiedCustomer = verifiedCustomer;
     }
 
-    public boolean isSzseMember() {
-        return isSzseMember;
+    public boolean getSzseMember() {
+        return szseMember;
     }
 
     public void setSzseMember(boolean szseMember) {
-        isSzseMember = szseMember;
+        this.szseMember = szseMember;
     }
 
     public String getSzseMemberCode() {
@@ -306,8 +306,8 @@ public class Company {
                 ", legalRepresentativeId='" + legalRepresentativeId + '\'' +
                 ", industry='" + industry + '\'' +
                 ", businessScope='" + businessScope + '\'' +
-                ", isVerifiedCustomer=" + isVerifiedCustomer +
-                ", isSzseMember=" + isSzseMember +
+                ", isVerifiedCustomer=" + verifiedCustomer +
+                ", isSzseMember=" + szseMember +
                 ", szseMemberCode='" + szseMemberCode + '\'' +
                 ", szseMemberAbbreviation='" + szseMemberAbbreviation + '\'' +
                 ", customerStatus='" + customerStatus + '\'' +

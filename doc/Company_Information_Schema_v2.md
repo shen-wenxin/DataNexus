@@ -6,10 +6,10 @@
 | 字段名 | 数据类型 | 描述 |约束条件|
 | ------- | ------- | ------- |-------|
 | company_id*  | INT  | 公司ID（主键）PRIMARY KEY|
-| company_code*  | VARCHAR(50)  | 公司编码 |NOT NULL|
-| company_name*  | VARCHAR(100)  | 公司全称 |NOT NULL|
-| company_abbreviation  | VARCHAR(50)  | 公司简称  |
-|registered_location| ENUM | 公司注册地（中国大陆、中国香港、境外）|
+| company_code*  | VARCHAR(50)  | 公司编码 | |
+| company_name*  | VARCHAR(100)  | 公司全称 | |
+| company_abbreviation  | VARCHAR(50)  | 公司简称  |可为空|
+|registered_location| ENUM | 公司注册地（中国大陆，中国香港，境外）| |
 | company_type  | VARCHAR(50)  | 公司类型  |
 |unified_social_credit*|VARCHAR(50)|	统一社会信用编码|
 |registered_address|	VARCHAR(200)|	公司详细注册地址|
