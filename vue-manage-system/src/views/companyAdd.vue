@@ -69,15 +69,15 @@
                     <el-input type="textarea" v-model="form.business_scope"></el-input>
                 </el-form-item>
                 
-                <el-form-item label="是否为已认证客户"  prop="is_verified_customer" class="mid-gap">
-                    <el-switch v-model="form.is_verified_customer"></el-switch>
+                <el-form-item label="是否为已认证客户"  prop="verified_customer" class="mid-gap">
+                    <el-switch v-model="form.verified_customer"></el-switch>
                 </el-form-item>
 
-                <el-form-item label="是否为深交所会员" prop="is_szse_member" class="mid-gap">
-                    <el-switch v-model="form.is_szse_member"></el-switch>
+                <el-form-item label="是否为深交所会员" prop="szse_member" class="mid-gap">
+                    <el-switch v-model="form.szse_member"></el-switch>
                 </el-form-item>
 
-                <template v-if="form.is_szse_member">
+                <template v-if="form.szse_member">
                     <el-form-item label="深交所会员编码" prop="szse_member_code" class="mid-gap" >
                         <el-input v-model="form.szse_member_code"></el-input>
                     </el-form-item>
@@ -206,8 +206,8 @@ const rules: FormRules = {
     industry: [{ required: true, message: '请输入行业分类', trigger: 'blur' }],
 
     business_scope: [{ required: true, message: '请输入经营范围', trigger: 'blur' }],
-    is_verified_customer: [{ required: true, message: '请选择是否为已认证客户', trigger: 'change' }],
-    is_szse_member: [{ required: true, message: '请选择是否为深交所会员', trigger: 'change' }],
+    verified_customer: [{ required: true, message: '请选择是否为已认证客户', trigger: 'change' }],
+    szse_member: [{ required: true, message: '请选择是否为深交所会员', trigger: 'change' }],
     szse_member_code: [{ required: true, message: '请输入深交所会员编码', trigger: 'blur' }],
     szse_member_abbreviation: [{ required: true, message: '请输入深交所会员简称', trigger: 'blur' }],
     customer_status: [{ required: true, message: '请输入客户状态', trigger: 'blur' }],
@@ -248,8 +248,8 @@ const form = reactive({
     legal_representative_id:'', 
     industry: '',
     business_scope: '',
-    is_verified_customer: false,
-    is_szse_member: false,
+    verified_customer: false,
+    szse_member: false,
     szse_member_code: '',
     szse_member_abbreviation: '',
     customer_status: '',
