@@ -22,8 +22,8 @@
 |legal_representative_id|	VARCHAR(50)	|法定代表人身份证号|
 |industry	|VARCHAR(50)	|行业分类|
 |business_scope|	VARCHAR(200)|	经营范围|
-|is_verified_customer|	BOOLEAN|	是否为已认证客户|
-|is_szse_member| BOOLEAN| 是否为深交所会员|
+|verified_customer|	BOOLEAN|	是否为已认证客户|
+|szse_member| BOOLEAN| 是否为深交所会员|
 |szse_member_code| VARCHAR(50)| 深交所会员编码|
 |szse_member_abbreviation| VARCHAR(50)| 深交所会员简称|
 |customer_status|	VARCHAR(50)|	客户状态|
@@ -37,5 +37,17 @@
 |primary_contact_phone	|VARCHAR(20)	|主要联系人电话|
 |primary_contact_email	|VARCHAR(100)	|主要联系人邮箱|
 
+## history_record
+| 字段名 | 数据类型 | 描述 |约束条件|
+| ------- | ------- | ------- |-------|
+| record_id*  | INT  | 公司ID（主键标识历史记录的ID）|PRIMARY KEY, 自增|
+| company_code*  | VARCHAR(50)  | 公司编码 | |
+| operation_type  | VARCHAR(20)	  | 操作类型 | |
+| operation_time  | DATETIME  | 操作时间  ||
+|operator| VARCHAR(50)	 | 操作人| |
+|modified_field| VARCHAR(50)	 | 修改区域| |
+|old_value| VARCHAR(5000)	 | 修改前值| |
+|new_value| VARCHAR(5000)		 | 修改后值| |
+|remark| VARCHAR(255)	 | 备注| |
 
 

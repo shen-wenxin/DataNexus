@@ -21,7 +21,7 @@ import java.util.List;
 public class CompanyRepositoryImpl implements CompanyRepository {
     private final JdbcTemplate jdbcTemplate;
 
-     @Value("${table.company.main}") // 从配置文件中读取表名
+    @Value("${table.company.main}") // 从配置文件中读取表名
     private String tableName;
 
     @Autowired
@@ -42,6 +42,24 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 
     @Override
+    public Page<Company> findByRegisteredLocation(Pageable pageable, String registeredLocation) {
+        int registeredLocationIndex = convertRegisteredLocation(registeredLocation);
+
+        String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE registered_location = ?";
+        int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, registeredLocationIndex);
+
+        String selectSql = "SELECT * FROM " + tableName + " WHERE registered_location = ? LIMIT ? OFFSET ?";
+        int pageSize = pageable.getPageSize();
+        int pageNumber = pageable.getPageNumber();
+        int offset = pageNumber * pageSize;
+
+        List<Company> companies = jdbcTemplate.query(selectSql, new BeanPropertyRowMapper<>(Company.class), registeredLocationIndex, pageSize, offset);
+
+        return new PageImpl<>(companies, pageable, totalElements);
+
+    }
+
+    @Override
     public Company findById(int companyId) throws CompanyNotFoundException {
         String sql = "SELECT * FROM " + tableName + " WHERE companyId = ?";
         List<Company> companies = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Company.class), companyId);
@@ -50,6 +68,17 @@ public class CompanyRepositoryImpl implements CompanyRepository {
         }
         return companies.get(0);
     }
+
+     @Override
+    public Company findByCode(String companyCode) throws CompanyNotFoundException {
+        String sql = "SELECT * FROM " + tableName + " WHERE company_code = ?";
+        List<Company> companies = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Company.class), companyCode);
+        if (companies.isEmpty()) {
+            throw new CompanyNotFoundException("Company not found with ID: " + companyCode);
+        }
+        return companies.get(0);
+    }
+
 
     @Override
     public boolean companyCodeChecker(String company_code) {
@@ -70,6 +99,13 @@ public class CompanyRepositoryImpl implements CompanyRepository {
         String sql = "SELECT * FROM " + tableName + " WHERE company_type = ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Company.class), companyType);
     }
+
+    @Override
+    public List<Company> findByUnifiedSocialCredit(String UnifiedSocialCredit) {
+        String sql = "SELECT * FROM " + tableName + " WHERE unified_social_credit = ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Company.class), UnifiedSocialCredit);
+    }
+
 
     @Override
     public void save(Company company) {
@@ -99,7 +135,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public void update(Company company) throws CompanyNotFoundException {
-        String sql = "UPDATE " + tableName + " SET company_code = ?, company_name = ?, company_abbreviation = ?, " +
+        // update by company_code
+        String sql = "UPDATE " + tableName + " SET company_name = ?, company_abbreviation = ?, " +
                 "company_type = ?, registered_location = ?, unified_social_credit = ?, registered_address = ?, " +
                 "registered_phone = ?, company_email = ?, establishment_date = ?, registered_capital = ?, " +
                 "legal_representative_name = ?, legal_representative_phone = ?, legal_representative_id = ?, " +
@@ -107,8 +144,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
                 "szse_member_abbreviation = ?, customer_status = ?, country = ?, province = ?, city = ?, " +
                 "business_license_number = ?, business_license_expiry = ?, primary_contact_name = ?, " +
                 "primary_contact_position = ?, primary_contact_phone = ?, primary_contact_email = ? " +
-                "WHERE company_id = ?";
-        int rowsAffected = jdbcTemplate.update(sql, company.getCompanyCode(), company.getCompanyName(),
+                "WHERE company_code = ?";
+        int rowsAffected = jdbcTemplate.update(sql, company.getCompanyName(),
                 company.getCompanyAbbreviation(), company.getCompanyType(), convertRegisteredLocation(company.getRegisteredLocation()),
                 company.getUnifiedSocialCredit(), company.getRegisteredAddress(), company.getRegisteredPhone(),
                 company.getCompanyEmail(), company.getEstablishmentDate(), company.getRegisteredCapital(),
@@ -119,18 +156,18 @@ public class CompanyRepositoryImpl implements CompanyRepository {
                 company.getProvince(), company.getCity(), company.getBusinessLicenseNumber(),
                 company.getBusinessLicenseExpiry(), company.getPrimaryContactName(),
                 company.getPrimaryContactPosition(), company.getPrimaryContactPhone(),
-                company.getPrimaryContactEmail(), company.getCompanyId());
+                company.getPrimaryContactEmail(), company.getCompanyCode());
         if (rowsAffected == 0) {
             throw new CompanyNotFoundException("Company not found with ID: " + company.getCompanyId());
         }
     }
 
     @Override
-    public void delete(int companyId) throws CompanyNotFoundException {
-        String sql = "DELETE FROM " + tableName + " WHERE company_id = ?";
-        int rowsAffected = jdbcTemplate.update(sql, companyId);
+    public void delete(String companyCode) throws CompanyNotFoundException {
+        String sql = "DELETE FROM " + tableName + " WHERE company_code = ?";
+        int rowsAffected = jdbcTemplate.update(sql, companyCode);
         if (rowsAffected == 0) {
-            throw new CompanyNotFoundException("Company not found with ID: " + companyId);
+            throw new CompanyNotFoundException("Company not found with ID: " + companyCode);
         }
     }
 
@@ -153,6 +190,23 @@ public class CompanyRepositoryImpl implements CompanyRepository {
                 throw new IllegalArgumentException("Invalid registered location: " + registeredLocation);
         }
     }
+
+    @Override
+    public int CompanyCount(String registeredLocation) {
+        int index = convertRegisteredLocation(registeredLocation);
+
+        String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE registered_location = ?";
+        int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, index);
+
+        return totalElements;
+
+    }
+
+
+    
+   
+
+
 
     
 

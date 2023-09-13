@@ -23,8 +23,8 @@ public class CompanyDTO {
     private String legal_representative_id;
     private String industry;
     private String business_scope;
-    private Boolean is_verified_customer;
-    private Boolean is_szse_member;
+    private Boolean verified_customer;
+    private Boolean szse_member;
     private String szse_member_code;
     private String szse_member_abbreviation;
     private String customer_status;
@@ -166,20 +166,20 @@ public class CompanyDTO {
         this.business_scope = business_scope;
     }
 
-    public Boolean getIs_verified_customer() {
-        return is_verified_customer;
+    public Boolean getVerified_customer() {
+        return verified_customer;
     }
 
-    public void setIs_verified_customer(Boolean is_verified_customer) {
-        this.is_verified_customer = is_verified_customer;
+    public void setVerified_customer(Boolean verified_customer) {
+        this.verified_customer = verified_customer;
     }
 
-    public Boolean getIs_szse_member() {
-        return is_szse_member;
+    public Boolean getSzse_member() {
+        return szse_member;
     }
 
-    public void setIs_szse_member(Boolean is_szse_member) {
-        this.is_szse_member = is_szse_member;
+    public void setSzse_member(Boolean szse_member) {
+        this.szse_member = szse_member;
     }
 
     public String getSzse_member_code() {
@@ -297,8 +297,8 @@ public class CompanyDTO {
                 ", legal_representative_id='" + legal_representative_id + '\'' +
                 ", industry='" + industry + '\'' +
                 ", business_scope='" + business_scope + '\'' +
-                ", is_verified_customer=" + is_verified_customer +
-                ", is_szse_member=" + is_szse_member +
+                ", is_verified_customer=" + verified_customer +
+                ", is_szse_member=" + szse_member +
                 ", szse_member_code='" + szse_member_code + '\'' +
                 ", szse_member_abbreviation='" + szse_member_abbreviation + '\'' +
                 ", customer_status='" + customer_status + '\'' +

@@ -9,20 +9,30 @@ import java.util.List;
 public interface CompanyRepository {
     Page<Company> findAll(Pageable pageable);
 
+    Page<Company> findByRegisteredLocation(Pageable pageable, String registedLocation);
+
     Company findById(int companyId) throws CompanyNotFoundException;
 
+    Company findByCode(String companyCode) throws CompanyNotFoundException;
+
+
     List<Company> findByType(String companyType);
+
+    List<Company> findByUnifiedSocialCredit(String UnifiedSocialCredit);
+    
 
     void save(Company company);
 
     void update(Company company) throws CompanyNotFoundException;
 
-    void delete(int companyId) throws CompanyNotFoundException;
+    void delete(String companyCode) throws CompanyNotFoundException;
 
     int count();// count how many company
 
     boolean companyCodeChecker(String company_code);
 
     boolean unifiedSocialCreditChecker(String unified_social_credit);
+
+    public int CompanyCount(String registeredLocation);
 
 }

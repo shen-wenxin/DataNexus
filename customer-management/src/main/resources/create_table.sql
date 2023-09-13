@@ -36,3 +36,16 @@ CREATE TABLE IF NOT EXISTS data_nexus_db.company_information (
   INDEX idx_unified_social_credit (unified_social_credit)
 );
 
+CREATE TABLE IF NOT EXISTS history_records (
+  record_id INT PRIMARY KEY AUTO_INCREMENT,
+  company_code VARCHAR(50) NOT NULL,
+  operation_type VARCHAR(20),
+  operation_time DATETIME,
+  operator VARCHAR(50),
+  modified_field VARCHAR(50),
+  old_value VARCHAR(5000),
+  new_value VARCHAR(5000),
+  remark VARCHAR(255),
+  INDEX idx_operation_type (operation_type),
+  INDEX idx_company_code (company_code)
+);

@@ -7,9 +7,11 @@
 					<el-option key="2" label="中国香港" value="1"></el-option>
                     <el-option key="3" label="境外" value="2"></el-option>
 				</el-select>
-				<el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+				<el-input v-model="query.unified_social_credit" placeholder="统一社会信用编码" class="handle-input mr10"></el-input>
 				<el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
-				<el-button type="primary" :icon="Plus">新增</el-button>
+                
+				<el-button type="primary" :icon="Plus" @click="goToAddCompanyPage">新增</el-button>
+                <el-button type="primary" @click="exportXlsxPage">导出为Excel</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
 				<el-table-column prop="company_code" label="公司编码"></el-table-column>
@@ -28,7 +30,7 @@
 						<el-button text :icon="Edit" @click="handleEdit(scope.$index, scope.row)" v-permiss="16">
 							修改
 						</el-button>
-                        <el-button text :icon="Delete" class="red" @click="handleEdit(scope.$index, scope.row)" v-permiss="16">
+                        <el-button text :icon="Delete" class="red" @click="handleDelete(scope.$index, scope.row)" v-permiss="16">
 							删除
 						</el-button>
 					</template>
@@ -43,7 +45,10 @@
 					:total="pageTotal"
 					@current-change="handlePageChange"
 				></el-pagination>
+
+                <el-button type="primary" @click="exportXlsx">导出所有公司数据</el-button>
 			</div>
+            
 		</div>
 
 		<!-- 编辑弹出框 -->
@@ -323,7 +328,10 @@
 import { ref, reactive } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Delete, Edit, Search, Plus, InfoFilled } from '@element-plus/icons-vue';
-import { getAllCompanies, getCompaniesByRegisteredLocation, updateCompanyInfo} from '../api/index';
+import { deleteCompany, getAllCompanies, getCompaniesByRegisteredLocation, updateCompanyInfo, getCompanyByUnifiedSocialCredit, exportCompanies} from '../api/index';
+import { dataType } from 'element-plus/es/components/table-v2/src/common';
+import router from '../router';
+import * as XLSX from 'xlsx';
 
 interface TableItem {
   company_code: string;
@@ -360,7 +368,7 @@ interface TableItem {
 
 const query = reactive({
 	location: '',
-	name: '',
+	unified_social_credit: '',
 	pageIndex: 1,
 	pageSize: 10,
 });
@@ -399,13 +407,128 @@ const getCompanyDataByRegisteredLocation = (page: number, size: number, location
 
 }
 
+const exportXlsx = () => {
+    exportCompanies()
+    .then((response) => {
+    console.log("Get in exportCompanies2")
+    // 创建一个 Blob 对象，用于保存二进制数据
+    const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    // 创建一个临时 URL，用于生成下载链接
+    const url = URL.createObjectURL(blob);
+    // 创建一个 <a> 元素并模拟点击以下载文件
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'companies.xlsx';
+        link.click();
+
+        // 释放临时 URL 对象
+        URL.revokeObjectURL(url);
+    //   console.log('Excel 文件导出成功');
+      // 在这里可以添加额外的成功处理逻辑，如果需要的话
+    })
+    .catch(error => {
+      console.error('导出 Excel 文件时发生错误:', error);
+      // 在这里可以添加错误处理逻辑，如果需要的话
+    });
+
+};
+const list = [["Company Code",
+                "Company Name",
+                "Company Abbreviation",
+                "Company Type",
+                "Registered Location",
+                "Unified Social Credit",
+                "Registered Address",
+                "Registered Phone",
+                "Company Email",
+                "Establishment Date",
+                "Registered Capital",
+                "Legal Representative Name",
+                "Legal Representative Phone",
+                "Legal Representative ID",
+                "Industry",
+                "Business Scope",
+                "Verified Customer",
+                "SZSE Member",
+                "SZSE Member Code",
+                "SZSE Member Abbreviation",
+                "Customer Status",
+                "Country",
+                "Province",
+                "City",
+                "Business License Number",
+                "Business License Expiry",
+                "Primary Contact Name",
+                "Primary Contact Position",
+                "Primary Contact Phone",
+                "Primary Contact Email"]];
+
+const exportXlsxPage = () => {
+  tableData.value.map((item: TableItem, i: number) => {
+    const arr: any[] = [i + 1];
+    arr.push(
+      item.company_code,
+      item.company_name,
+      item.company_abbreviation || "", // 如果字段可能为空，请进行适当的处理
+      item.company_type || "",
+      item.registered_location,
+      item.unified_social_credit,
+      item.registered_address,
+      item.registered_phone,
+      item.company_email,
+      item.establishment_date,
+      item.registered_capital,
+      item.legal_representative_name,
+      item.legal_representative_phone,
+      item.legal_representative_id,
+      item.industry,
+      item.business_scope,
+      item.verified_customer,
+      item.szse_member,
+      item.szse_member_code,
+      item.szse_member_abbreviation,
+      item.customer_status,
+      item.country,
+      item.province,
+      item.city,
+      item.business_license_number,
+      item.business_license_expiry,
+      item.primary_contact_name,
+      item.primary_contact_position,
+      item.primary_contact_phone,
+      item.primary_contact_email
+    );
+    list.push(arr);
+  });
+  let WorkSheet = XLSX.utils.aoa_to_sheet(list);
+  let new_workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(new_workbook, WorkSheet, "第一页");
+  XLSX.writeFile(new_workbook, `数据.xlsx`);
+};
+
+const getCompanyDataByUnifiedSocialCredit = (code: string) => {
+    getCompanyByUnifiedSocialCredit(code)
+    .then(response => {
+        const data = response.data; 
+        tableData.value = data;
+        pageTotal.value = data.totalElements || 0; 
+    })
+    .catch(error => {
+        // 处理请求错误
+        console.error('请求错误:', error);
+    });
+}
+
 getCompanyData(query.pageIndex - 1, query.pageSize);
 
 
 // 查询操作
 const handleSearch = () => {
+
 	query.pageIndex = 1;
-	// getData();
+	let code = query.unified_social_credit;
+    getCompanyDataByUnifiedSocialCredit(code);
+
 };
 
 // 地点下拉框改变事件处理程序
@@ -423,14 +546,20 @@ const handlePageChange = (val: number) => {
 };
 
 // 删除操作
-const handleDelete = (index: number) => {
+const handleDelete = (index: number, row: any) => {
+    
+    let code = row.company_code
 	// 二次确认删除
 	ElMessageBox.confirm('确定要删除吗？', '提示', {
 		type: 'warning'
 	})
 		.then(() => {
-			ElMessage.success('删除成功');
-			tableData.value.splice(index, 1);
+            deleteCompany(code).then(() => {
+                ElMessage.success('删除成功');
+                getCompanyData((query.pageIndex - 1), query.pageSize);
+            }).catch((error) => {
+                ElMessage.error('删除失败');
+            })
 		})
 		.catch(() => {});
 };
@@ -540,6 +669,12 @@ const saveEdit = () => {
     }
 	
 };
+
+const goToAddCompanyPage = () => {
+  // 使用路由导航跳转到新增页面
+    router.push('/CompanyAdd');
+};
+
 </script>
 
 <style scoped>

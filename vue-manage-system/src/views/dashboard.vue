@@ -12,27 +12,25 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2022-10-01</span>
+						<span>2023-9-13</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
-						<span>东莞</span>
+						<span>深圳</span>
 					</div>
 				</el-card>
 				<el-card shadow="hover" style="height: 252px">
 					<template #header>
 						<div class="clearfix">
-							<span>语言详情</span>
+							<span>登记企业详情</span>
 						</div>
 					</template>
-					Vue
-					<el-progress :percentage="79.4" color="#42b983"></el-progress>
-					TypeScript
-					<el-progress :percentage="14" color="#f1e05a"></el-progress>
-					CSS
-					<el-progress :percentage="5.6"></el-progress>
-					HTML
-					<el-progress :percentage="1" color="#f56c6c"></el-progress>
+					中国大陆
+					<el-progress :percentage="countdetail.mptr" color="#42b983"></el-progress>
+					中国香港
+					<el-progress :percentage="countdetail.hptr" color="#f1e05a"></el-progress>
+					海外
+					<el-progress :percentage="countdetail.optr"></el-progress>
 				</el-card>
 			</el-col>
 			<el-col :span="16">
@@ -62,10 +60,10 @@
 					<el-col :span="8">
 						<el-card shadow="hover" :body-style="{ padding: '0px' }">
 							<div class="grid-content grid-con-3">
-								<el-icon class="grid-con-icon"><Goods /></el-icon>
+								<el-icon class="grid-con-icon"><i class="el-icon-lx-global"></i></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">5000</div>
-									<div>商品数量</div>
+									<div class="grid-num">{{ countdetail.total }}</div>
+									<div>公司数量</div>
 								</div>
 							</div>
 						</el-card>
@@ -101,25 +99,47 @@
 				</el-card>
 			</el-col>
 		</el-row>
-		<el-row :gutter="20">
-			<el-col :span="12">
-				<el-card shadow="hover">
-					<schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
-				</el-card>
-			</el-col>
-			<el-col :span="12">
-				<el-card shadow="hover">
-					<schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
-				</el-card>
-			</el-col>
-		</el-row>
+
 	</div>
 </template>
 
 <script setup lang="ts" name="dashboard">
 import Schart from 'vue-schart';
-import { reactive } from 'vue';
+import {ref, reactive, onMounted  } from 'vue';
 import imgurl from '../assets/img/img.jpg';
+import { getCompanyCount } from '../api';
+
+const countdetail = reactive({
+	total: 0,
+	mainland: 0,
+	hongkong: 0,
+	overseas: 0,
+	mptr: 0,
+	hptr: 0,
+	optr: 0,
+});
+
+const getCountData = () => {
+	getCompanyCount()
+	.then(response => {
+		console.log(response)
+		let data = response.data
+		countdetail.total = data.total;
+		countdetail.mainland = data.mainland;
+		countdetail.hongkong = data.hongkong;
+		countdetail.overseas = data.overseas;
+		countdetail.mptr = countdetail.mainland * 100/countdetail.total ;
+		countdetail.hptr = countdetail.hongkong * 100/countdetail.total ;
+		countdetail.optr = countdetail.overseas * 100/countdetail.total ;
+		
+
+
+	})
+	.catch(error =>{
+		console.error("error: ", error);
+	})
+}
+getCountData();
 
 const name = localStorage.getItem('ms_username');
 const role: string = name === 'admin' ? '超级管理员' : '普通用户';
@@ -169,29 +189,26 @@ const options2 = {
 };
 const todoList = reactive([
 	{
-		title: '今天要修复100个bug',
+		title: '更新ABC Corporation公司信息',
 		status: false
 	},
 	{
-		title: '今天要修复100个bug',
+		title: '更新GlobalTech Solutions公司信息',
 		status: false
 	},
 	{
-		title: '今天要写100行代码加几个bug吧',
+		title: '更新Innovate Inc. 联系人信息',
 		status: false
 	},
 	{
-		title: '今天要修复100个bug',
+		title: '审核MegaCorp International 入会申请',
 		status: false
 	},
 	{
-		title: '今天要修复100个bug',
+		title: '分析数据',
 		status: true
 	},
-	{
-		title: '今天要写100行代码加几个bug吧',
-		status: true
-	}
+	
 ]);
 </script>
 

@@ -68,6 +68,15 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "form" */ '../views/companyAdd.vue'),
             },
             {
+                path: '/history-record',
+                name: 'history',
+                    meta: {
+                    title: '查看历史记录',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/history.vue'),
+            },
+            {
                 path: '/tabs',
                 name: 'tabs',
                 meta: {

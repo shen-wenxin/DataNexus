@@ -62,6 +62,8 @@ const items = [
         title: '系统首页',
         permiss: '1',
     },
+
+
     {
         icon: 'Calendar',
         index: '1',
@@ -79,9 +81,9 @@ const items = [
                 permiss: '2',
             },
             {
-                index: '/import',
-                title: '导入Excel',
-                permiss: '2',
+                index: '/history-record',
+                title: '查看历史纪录',
+                permiss: '1'
             },
             {
                 index: '/export',
