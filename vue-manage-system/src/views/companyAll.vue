@@ -528,6 +528,7 @@ const handleSearch = () => {
 	query.pageIndex = 1;
 	let code = query.unified_social_credit;
     if(code == ""){
+        query.location = "";
         getCompanyData(query.pageIndex - 1, query.pageSize);
     }else{
         getCompanyDataByUnifiedSocialCredit(code);

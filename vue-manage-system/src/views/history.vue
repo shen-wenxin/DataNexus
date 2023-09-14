@@ -289,8 +289,15 @@ const handleSearch = () => {
 
 	query.pageIndex = 1;
 	let code = query.code;
+  if(code == ""){
+    getHistoryData(query.pageIndex - 1, query.pageSize);
+    query.type = "";
+
+  }else{
+      getHistoryDataByCode((query.pageIndex - 1),  query.pageSize, code);
+  }
     
-  getHistoryDataByCode((query.pageIndex - 1),  query.pageSize, code);
+  
 
 };
 const getHistoryDataByType = (page: number, size: number, type: string) => {
