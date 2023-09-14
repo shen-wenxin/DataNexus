@@ -527,7 +527,12 @@ const handleSearch = () => {
 
 	query.pageIndex = 1;
 	let code = query.unified_social_credit;
-    getCompanyDataByUnifiedSocialCredit(code);
+    if(code == ""){
+        getCompanyData(query.pageIndex - 1, query.pageSize);
+    }else{
+        getCompanyDataByUnifiedSocialCredit(code);
+    }
+    
 
 };
 
@@ -657,6 +662,7 @@ const saveEdit = () => {
             .then(() => {
                 isFormModified.value = false;
                 ElMessage.success('更新成功');
+                getCompanyData(query.pageIndex - 1, query.pageSize);
             })
             .catch(() => {
                 ElMessage.error('更新失败');

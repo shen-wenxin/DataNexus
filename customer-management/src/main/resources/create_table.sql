@@ -49,3 +49,8 @@ CREATE TABLE IF NOT EXISTS history_records (
   INDEX idx_operation_type (operation_type),
   INDEX idx_company_code (company_code)
 );
+
+
+
+
+

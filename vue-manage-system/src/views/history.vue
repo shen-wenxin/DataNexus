@@ -80,12 +80,80 @@ const getHistoryData = (page: number, size: number) => {
       console.log('data:', data);
       tableData.value = data.content
       pageTotal.value = data.totalElements || 0; 
+
+      for (const item of tableData.value) {
+        const oldValue = item.oldValue;
+        const newValue = item.newValue;
+        if(oldValue == "" || newValue == ""){
+          continue;
+        }
+        const oldCompany = deserializeCompany(oldValue);
+        const newCompany = deserializeCompany(newValue);
+        let oldValues = ""; // 存储旧值的字符串
+        let newValues = ""; // 存储新值的字符串
+
+        for (const key in oldCompany) {
+          if (oldCompany[key] !== newCompany[key]) {
+            if(key == "companyId"){
+              continue;
+            }
+            if(key == "registeredLocation"){
+              if( oldCompany[key] == "中国大陆" && newCompany[key] == "0"){
+                continue;
+              }
+              if( oldCompany[key] == "中国香港" && newCompany[key] == "1"){
+                continue;
+              }
+              if( oldCompany[key] == "境外" && newCompany[key] == "2"){
+                continue;
+              }
+            }
+            if(key == "registeredCapital") {
+              const oldCapital = parseFloat(oldCompany[key]);
+              const newCapital = parseFloat(newCompany[key]);
+              if (isNaN(oldCapital) || isNaN(newCapital)) {
+                continue;
+              }
+              if (oldCapital === newCapital) {
+                continue;
+              }
+              oldValues += `'${key}': ${oldCapital}\n`;
+              newValues += `'${key}': ${newCapital}\n`;
+            } 
+            else {
+              oldValues += `'${key}': ${oldCompany[key]}\n`;
+              newValues += `'${key}': ${newCompany[key]}\n`;
+            }
+            
+          }
+        }
+        // 更新 item 对象的值
+        item.oldValue = oldValues;
+        item.newValue = newValues;
+
+      }
     })
     .catch(error => {
       // 处理请求错误
       console.error('请求错误:', error);
     });
 }
+// 反序列化 oldCompany 和 newCompany
+const deserializeCompany = (companyString: string) => {
+  const propertyArray = companyString
+    .replace("Company", "")
+    .replace("{", "")
+    .replace("}", "")
+    .split(", ");
+
+    const companyObject: { [key: string]: string } = {}; // 添加类型注解
+  for (const property of propertyArray) {
+    const [key, value] = property.split("=");
+    companyObject[key.trim()] = value.replace(/'/g, "").trim();
+  }
+  return companyObject;
+};
+
 
 const getHistoryDataByCode = (page: number, size: number, code: string) => {
     getHistoryByCode(code, page, size)
@@ -95,6 +163,57 @@ const getHistoryDataByCode = (page: number, size: number, code: string) => {
         console.log('data:', data);
         tableData.value = data.content;
         pageTotal.value = data.totalElements || 0; 
+        for (const item of tableData.value) {
+        const oldValue = item.oldValue;
+        const newValue = item.newValue;
+        if(oldValue == "" || newValue == ""){
+          continue;
+        }
+        const oldCompany = deserializeCompany(oldValue);
+        const newCompany = deserializeCompany(newValue);
+        let oldValues = ""; // 存储旧值的字符串
+        let newValues = ""; // 存储新值的字符串
+
+        for (const key in oldCompany) {
+          if (oldCompany[key] !== newCompany[key]) {
+            if(key == "companyId"){
+              continue;
+            }
+            if(key == "registeredLocation"){
+              if( oldCompany[key] == "中国大陆" && newCompany[key] == "0"){
+                continue;
+              }
+              if( oldCompany[key] == "中国香港" && newCompany[key] == "1"){
+                continue;
+              }
+              if( oldCompany[key] == "境外" && newCompany[key] == "2"){
+                continue;
+              }
+            }
+            if(key == "registeredCapital") {
+              const oldCapital = parseFloat(oldCompany[key]);
+              const newCapital = parseFloat(newCompany[key]);
+              if (isNaN(oldCapital) || isNaN(newCapital)) {
+                continue;
+              }
+              if (oldCapital === newCapital) {
+                continue;
+              }
+              oldValues += `'${key}': ${oldCapital}\n`;
+              newValues += `'${key}': ${newCapital}\n`;
+            } 
+            else {
+              oldValues += `'${key}': ${oldCompany[key]}\n`;
+              newValues += `'${key}': ${newCompany[key]}\n`;
+            }
+            
+          }
+        }
+        // 更新 item 对象的值
+        item.oldValue = oldValues;
+        item.newValue = newValues;
+
+      }
     })
     .catch(error => {
         // 处理请求错误
@@ -171,17 +290,70 @@ const handleSearch = () => {
 	query.pageIndex = 1;
 	let code = query.code;
     
-    getHistoryDataByCode((query.pageIndex - 1),  query.pageSize, code);
+  getHistoryDataByCode((query.pageIndex - 1),  query.pageSize, code);
 
 };
 const getHistoryDataByType = (page: number, size: number, type: string) => {
+    console.log("type:", type)
     getHistoryByType(type, page, size)
     .then(response => {
         const data = response.data; 
 
         console.log('data:', data);
         tableData.value = data.content;
-        pageTotal.value = data.totalElements || 0; 
+        pageTotal.value = data.totalElements || 0;
+        for (const item of tableData.value) {
+        const oldValue = item.oldValue;
+        const newValue = item.newValue;
+        if(oldValue == "" || newValue == ""){
+          continue;
+        }
+        const oldCompany = deserializeCompany(oldValue);
+        const newCompany = deserializeCompany(newValue);
+        let oldValues = ""; // 存储旧值的字符串
+        let newValues = ""; // 存储新值的字符串
+
+        for (const key in oldCompany) {
+          if (oldCompany[key] !== newCompany[key]) {
+            if(key == "companyId"){
+              continue;
+            }
+            if(key == "registeredLocation"){
+              if( oldCompany[key] == "中国大陆" && newCompany[key] == "0"){
+                continue;
+              }
+              if( oldCompany[key] == "中国香港" && newCompany[key] == "1"){
+                continue;
+              }
+              if( oldCompany[key] == "境外" && newCompany[key] == "2"){
+                continue;
+              }
+            }
+            if(key == "registeredCapital") {
+              const oldCapital = parseFloat(oldCompany[key]);
+              const newCapital = parseFloat(newCompany[key]);
+              if (isNaN(oldCapital) || isNaN(newCapital)) {
+                continue;
+              }
+              if (oldCapital === newCapital) {
+                continue;
+              }
+              oldValues += `'${key}': ${oldCapital}\n`;
+              newValues += `'${key}': ${newCapital}\n`;
+            } 
+            else {
+              oldValues += `'${key}': ${oldCompany[key]}\n`;
+              newValues += `'${key}': ${newCompany[key]}\n`;
+            }
+            
+          }
+        }
+        // 更新 item 对象的值
+        item.oldValue = oldValues;
+        item.newValue = newValues;
+
+      }
+         
     })
     .catch(error => {
         // 处理请求错误

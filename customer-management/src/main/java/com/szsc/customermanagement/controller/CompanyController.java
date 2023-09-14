@@ -117,9 +117,8 @@ public class CompanyController {
     }
 
 
-    @DeleteMapping("/{company_code}")
+    @DeleteMapping("/{companyCode}")
     public ResponseEntity<Void> deleteCompany(@PathVariable String companyCode) {
-
         try {
             companyService.deleteCompany(companyCode);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

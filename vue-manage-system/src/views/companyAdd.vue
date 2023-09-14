@@ -135,6 +135,7 @@ import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
 import request from '../utils/request';
+import router from '../router';
 
 const validateUnifiedSocialCredit = (rule: any, value: any, callback: any) => {
   const regex = /^[0-9A-Z]{18}$/;
@@ -286,6 +287,7 @@ const onSubmit = (formEl: FormInstance | undefined) => {
                     // 处理成功的情况
                     if (response.status == 201){
                         ElMessage.success("创建成功");
+                        router.push('/companies');
                     } else {
                         if (response.data.company_confilct) {
                             ElMessage.error("公司编码或统一社会信用编码已存在");

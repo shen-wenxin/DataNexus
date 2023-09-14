@@ -33,6 +33,7 @@ public interface CompanyRepository {
 
     boolean unifiedSocialCreditChecker(String unified_social_credit);
 
-    public int CompanyCount(String registeredLocation);
+    int CompanyCount(String registeredLocation);
+    int convertRegisteredLocation(String registeredLocation);
 
 }

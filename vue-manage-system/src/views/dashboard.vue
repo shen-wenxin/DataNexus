@@ -128,9 +128,9 @@ const getCountData = () => {
 		countdetail.mainland = data.mainland;
 		countdetail.hongkong = data.hongkong;
 		countdetail.overseas = data.overseas;
-		countdetail.mptr = countdetail.mainland * 100/countdetail.total ;
-		countdetail.hptr = countdetail.hongkong * 100/countdetail.total ;
-		countdetail.optr = countdetail.overseas * 100/countdetail.total ;
+		countdetail.mptr = parseFloat((countdetail.mainland * 100/countdetail.total).toFixed(2));
+		countdetail.hptr = parseFloat((countdetail.hongkong * 100/countdetail.total).toFixed(2) );
+		countdetail.optr = parseFloat((countdetail.overseas * 100/countdetail.total).toFixed(2) );
 		
 
 

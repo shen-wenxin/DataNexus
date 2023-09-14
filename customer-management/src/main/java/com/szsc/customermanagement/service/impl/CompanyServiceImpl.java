@@ -83,7 +83,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company companyOld = companyRepository.findByCode(companyCode);
         companyRepository.update(company);
         String companyOldStr = companyOld.toString();
-
+        
         String companyNewStr = company.toString();
         String remarks = "";
 
@@ -100,9 +100,12 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void deleteCompany(String companyCode) throws CompanyNotFoundException {
         Company existingCompany = companyRepository.findByCode(companyCode);
+
+        
         if (existingCompany == null) {
             throw new CompanyNotFoundException("Company not found with ID: " + companyCode);
         }
+        System.out.println("existingCompany" + existingCompany.toString());
         String CompanyOldStr = companyRepository.findByCode(companyCode).toString();
         String CompanyNewStr = "";
         String remarks = "";
@@ -266,10 +269,11 @@ public class CompanyServiceImpl implements CompanyService {
 
             // 填充数据行
             int rowNum = 1;
+            int idx = 1;
             for (Company company : companies) {
                 Row dataRow = sheet.createRow(rowNum++);
 
-                dataRow.createCell(0).setCellValue(company.getCompanyId());
+                dataRow.createCell(0).setCellValue(idx ++);
                 dataRow.createCell(1).setCellValue(company.getCompanyCode());
                 dataRow.createCell(2).setCellValue(company.getCompanyName());
                 dataRow.createCell(3).setCellValue(company.getCompanyAbbreviation());

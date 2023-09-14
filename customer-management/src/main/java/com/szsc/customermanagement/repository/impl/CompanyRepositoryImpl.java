@@ -176,8 +176,9 @@ public class CompanyRepositoryImpl implements CompanyRepository {
         String sql = "SELECT COUNT(*) FROM " + tableName;
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
-
-    private int convertRegisteredLocation(String registeredLocation) {
+    
+    @Override
+    public int convertRegisteredLocation(String registeredLocation) {
         // 大坑 mysql enum的索引从1开始 离谱哈
         switch (registeredLocation) {
             case AppConfig.CODE_LOCATION_CHINA_MAINLAND :
