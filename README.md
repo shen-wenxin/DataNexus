@@ -71,7 +71,7 @@ mvn spring-boot:run // 正常来说会占用8080端口
 - repository：包含仓库类，用于与数据存储（如数据库）进行交互，执行数据的持久化和检索操作。
 - service：包含服务类，提供业务逻辑的实现，协调不同的组件和功能，处理业务规则和操作数据。
 - utils：包含通用的工具类，提供各种辅助方法和功能，用于在项目中的不同部分重复使用。
--customerManagementApplication.java：Spring Boot 应用程序的入口点，其中包含 main 方法，用于启动应用程序。
+- customerManagementApplication.java：Spring Boot 应用程序的入口点，其中包含 main 方法，用于启动应用程序。
 
 #### 前端
 
