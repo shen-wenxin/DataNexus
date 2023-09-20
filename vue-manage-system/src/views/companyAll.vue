@@ -7,19 +7,19 @@
 					<el-option key="2" label="中国香港" value="1"></el-option>
                     <el-option key="3" label="境外" value="2"></el-option>
 				</el-select>
-				<el-input v-model="query.unified_social_credit" placeholder="统一社会信用编码" class="handle-input mr10"></el-input>
+				<el-input v-model="query.unifiedSocialCredit" placeholder="统一社会信用编码" class="handle-input mr10"></el-input>
 				<el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
                 
 				<el-button type="primary" :icon="Plus" @click="goToAddCompanyPage">新增</el-button>
                 <el-button type="primary" @click="exportXlsxPage">导出为Excel</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-				<el-table-column prop="company_code" label="公司编码"></el-table-column>
-				<el-table-column prop="company_name" label="公司全称"></el-table-column>
-				<el-table-column prop="company_abbreviation" label="公司简称"></el-table-column>
-                <el-table-column prop="registered_location" label="公司注册地"></el-table-column>
-				<el-table-column prop="company_type" label="公司类型"></el-table-column>
-                <el-table-column prop="unified_social_credit" label="统一社会信用编码"></el-table-column>
+				<el-table-column prop="companyCode" label="公司编码"></el-table-column>
+				<el-table-column prop="companyName" label="公司全称"></el-table-column>
+				<el-table-column prop="companyAbbreviation" label="公司简称"></el-table-column>
+                <el-table-column prop="registeredLocation" label="公司注册地"></el-table-column>
+				<el-table-column prop="companyType" label="公司类型"></el-table-column>
+                <el-table-column prop="unifiedSocialCredit" label="统一社会信用编码"></el-table-column>
 
 				<el-table-column label="操作" width="330" align="center">
 					<template #default="scope">
@@ -58,44 +58,44 @@
                     <template #label>
                         <span class="bold-label">公司编码</span>
                     </template>
-                    <span>{{ form.company_code }}</span>
+                    <span>{{ form.companyCode }}</span>
                 </el-form-item>
 				<el-form-item label="公司全称">
-					<el-input v-model="form.company_name" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.companyName" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="公司简称">
-					<el-input v-model="form.company_abbreviation" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.companyAbbreviation" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="公司类型">
-					<el-input v-model="form.company_type" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.companyType" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="公司邮箱">
-					<el-input v-model="form.company_email" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.companyEmail" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="行业分类">
 					<el-input v-model="form.industry" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="经营范围">
-					<el-input v-model="form.business_scope" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.businessScope" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="是否验证客户">
-                    <el-switch v-model="form.verified_customer" @change="isFormModified = true"></el-switch>
+                    <el-switch v-model="form.verifiedCustomer" @change="isFormModified = true"></el-switch>
                 </el-form-item>
                 <el-form-item label="是否为深交所会员">
-                    <el-switch v-model="form.szse_member" @change="handleSzseMemberChange"></el-switch>
+                    <el-switch v-model="form.szseMember" @change="handleSzseMemberChange"></el-switch>
                 </el-form-item>
         
-                <!-- 只有在 form.szse_member 为 true 时才显示深交所会员相关的表单项 -->
-                <template v-if="form.szse_member">
+                <!-- 只有在 form.szseMember 为 true 时才显示深交所会员相关的表单项 -->
+                <template v-if="form.szseMember">
                     <el-form-item label="深交所会员编码">
-                        <el-input v-model="form.szse_member_code" @input="isFormModified = true"></el-input>
+                        <el-input v-model="form.szseMemberCode" @input="isFormModified = true"></el-input>
                     </el-form-item>
                     <el-form-item label="深交所会员简称">
-                        <el-input v-model="form.szse_member_abbreviation" @input="isFormModified = true"></el-input>
+                        <el-input v-model="form.szseMemberAbbreviation" @input="isFormModified = true"></el-input>
                     </el-form-item>
                 </template>
                 <el-form-item label="客户状态">
-					<el-input v-model="form.customer_status" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.customerStatus" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="所在国家">
 					<el-input v-model="form.country" @input="isFormModified = true"></el-input>
@@ -107,16 +107,16 @@
 					<el-input v-model="form.city" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="主要联系人姓名">
-					<el-input v-model="form.primary_contact_name" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.primaryContactName" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="主要联系人职务">
-					<el-input v-model="form.primary_contact_position" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.primaryContactPosition" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="主要联系人电话">
-					<el-input v-model="form.primary_contact_phone" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.primaryContactPhone" @input="isFormModified = true"></el-input>
 				</el-form-item>
                 <el-form-item label="主要联系人邮箱">
-					<el-input v-model="form.primary_contact_email" @input="isFormModified = true"></el-input>
+					<el-input v-model="form.primaryContactEmail" @input="isFormModified = true"></el-input>
 				</el-form-item>
 			</el-form>
 			<template #footer>
@@ -137,85 +137,85 @@
                     <template #label>
                         <span class="bold-label">公司编码</span>
                     </template>
-                    <span>{{ form.company_code }}</span>
+                    <span>{{ form.companyCode }}</span>
                 </el-form-item>
                 <el-form-item label="公司全称">
                     <template #label>
                         <span class="bold-label">公司全称</span>
                     </template>
-                    <span>{{ form.company_name }}</span>
+                    <span>{{ form.companyName }}</span>
                 </el-form-item>
                     <el-form-item label="公司简称">
                     <template #label>
                         <span class="bold-label">公司简称</span>
                     </template>
-                    <span>{{ form.company_abbreviation }}</span>
+                    <span>{{ form.companyAbbreviation }}</span>
                     </el-form-item>
                     <el-form-item label="公司注册地">
                     <template #label>
                         <span class="bold-label">公司注册地</span>
                     </template>
-                    <span>{{ form.registered_location }}</span>
+                    <span>{{ form.registeredLocation }}</span>
                     </el-form-item>
                     <el-form-item label="公司类型">
                     <template #label>
                         <span class="bold-label">公司类型</span>
                     </template>
-                    <span>{{ form.company_type }}</span>
+                    <span>{{ form.companyType }}</span>
                     </el-form-item>
                     <el-form-item label="统一社会信用编码">
                     <template #label>
                         <span class="bold-label">统一社会信用编码</span>
                     </template>
-                    <span>{{ form.unified_social_credit }}</span>
+                    <span>{{ form.unifiedSocialCredit }}</span>
                     </el-form-item>
                     <el-form-item label="公司详细注册地址">
                     <template #label>
                         <span class="bold-label">公司详细注册地址</span>
                     </template>
-                    <span>{{ form.registered_address }}</span>
+                    <span>{{ form.registeredAddress }}</span>
                     </el-form-item>
                     <el-form-item label="注册电话">
                     <template #label>
                         <span class="bold-label">注册电话</span>
                     </template>
-                    <span>{{ form.registered_phone }}</span>
+                    <span>{{ form.registeredPhone }}</span>
                     </el-form-item>
                     <el-form-item label="公司邮箱">
                     <template #label>
                         <span class="bold-label">公司邮箱</span>
                     </template>
-                    <span>{{ form.company_email }}</span>
+                    <span>{{ form.companyEmail }}</span>
                     </el-form-item>
                     <el-form-item label="成立时间">
                     <template #label>
                         <span class="bold-label">成立时间</span>
                     </template>
-                    <span>{{ form.establishment_date }}</span>
+                    <span>{{ form.establishmentDate }}</span>
                     </el-form-item>
                     <el-form-item label="注册资本">
                     <template #label>
                         <span class="bold-label">注册资本</span>
                     </template>
-                    <span>{{ form.registered_capital }}</span>
+                    <span>{{ form.registeredCapital }}</span>
                     </el-form-item>
                     <el-form-item label="法定代表人姓名">
                     <template #label>
                         <span class="bold-label">法定代表人姓名</span>
                     </template>
-                    <span>{{ form.legal_representative_name }}</span>
+                    <span>{{ form.legalRepresentativeName }}</span>
                     </el-form-item>
                     <el-form-item label="法定代表人联系电话">
                     <template #label>
                         <span class="bold-label">法定代表人联系电话</span>
                     </template>
-                    <span>{{ form.legal_representative_phone }}</span>
+                    <span>{{ form.legalRepresentativePhone }}</span>
                     </el-form-item>
                     <el-form-item label="法定代表人身份证号">
                     <template #label>
                         <span class="bold-label">法定代表人身份证号</span>
                     </template>
-                    <span>{{ form.legal_representative_id }}</span>
+                    <span>{{ form.legalRepresentativeId }}</span>
                     </el-form-item>
                     <el-form-item label="行业分类">
                     <template #label>
@@ -227,37 +227,37 @@
                     <template #label>
                         <span class="bold-label">经营范围</span>
                     </template>
-                    <span>{{ form.business_scope }}</span>
+                    <span>{{ form.businessScope }}</span>
                     </el-form-item>
                     <el-form-item label="是否为已认证客户">
                     <template #label>
                         <span class="bold-label">是否为已认证客户</span>
                     </template>
-                    <span>{{ form.verified_customer }}</span>
+                    <span>{{ form.verifiedCustomer }}</span>
                     </el-form-item>
                     <el-form-item label="是否为深交所会员">
                     <template #label>
                         <span class="bold-label">是否为深交所会员</span>
                     </template>
-                    <span>{{ form.szse_member }}</span>
+                    <span>{{ form.szseMember }}</span>
                     </el-form-item>
                     <el-form-item label="深交所会员编码">
                     <template #label>
                         <span class="bold-label">深交所会员编码</span>
                     </template>
-                    <span>{{ form.szse_member_code }}</span>
+                    <span>{{ form.szseMemberCode }}</span>
                     </el-form-item>
                     <el-form-item label="深交所会员简称">
                     <template #label>
                         <span class="bold-label">深交所会员简称</span>
                     </template>
-                    <span>{{ form.szse_member_abbreviation }}</span>
+                    <span>{{ form.szseMemberAbbreviation }}</span>
                     </el-form-item>
                     <el-form-item label="客户状态">
                     <template #label>
                         <span class="bold-label">客户状态</span>
                     </template>
-                    <span>{{ form.customer_status }}</span>
+                    <span>{{ form.customerStatus }}</span>
                     </el-form-item>
                     <el-form-item label="所在国家">
                     <template #label>
@@ -281,37 +281,37 @@
                     <template #label>
                         <span class="bold-label">营业执照编号</span>
                     </template>
-                    <span>{{ form.business_license_number }}</span>
+                    <span>{{ form.businessLicenseNumber }}</span>
                     </el-form-item>
                     <el-form-item label="营业执照有效期">
                     <template #label>
                         <span class="bold-label">营业执照有效期</span>
                     </template>
-                    <span>{{ form.business_license_expiry }}</span>
+                    <span>{{ form.businessLicenseExpiry }}</span>
                     </el-form-item>
                     <el-form-item label="主要联系人姓名">
                     <template #label>
                         <span class="bold-label">主要联系人姓名</span>
                     </template>
-                    <span>{{ form.primary_contact_name }}</span>
+                    <span>{{ form.primaryContactName }}</span>
                     </el-form-item>
                     <el-form-item label="主要联系人职务">
                     <template #label>
                         <span class="bold-label">主要联系人职务</span>
                     </template>
-                    <span>{{ form.primary_contact_position }}</span>
+                    <span>{{ form.primaryContactPosition }}</span>
                     </el-form-item>
                     <el-form-item label="主要联系人电话">
                     <template #label>
                         <span class="bold-label">主要联系人电话</span>
                     </template>
-                    <span>{{ form.primary_contact_phone }}</span>
+                    <span>{{ form.primaryContactPhone }}</span>
                     </el-form-item>
                     <el-form-item label="主要联系人邮箱">
                     <template #label>
                         <span class="bold-label">主要联系人邮箱</span>
                     </template>
-                    <span>{{ form.primary_contact_email }}</span>
+                    <span>{{ form.primaryContactEmail }}</span>
                     </el-form-item>
             <!-- 添加其他字段的展示 -->
             </el-form>
@@ -334,41 +334,41 @@ import router from '../router';
 import * as XLSX from 'xlsx';
 
 interface TableItem {
-  company_code: string;
-  company_name: string;
-  company_abbreviation?: string;
-  registered_location: string;
-  company_type?: string;
-  unified_social_credit: string;
-  registered_address: string;
-  registered_phone: string;
-  company_email: string;
-  establishment_date: string; // 根据实际情况选择合适的日期格式
-  registered_capital: number;
-  legal_representative_name: string;
-  legal_representative_phone: string;
-  legal_representative_id: string;
+  companyCode: string;
+  companyName: string;
+  companyAbbreviation?: string;
+  registeredLocation: string;
+  companyType?: string;
+  unifiedSocialCredit: string;
+  registeredAddress: string;
+  registeredPhone: string;
+  companyEmail: string;
+  establishmentDate: string; // 根据实际情况选择合适的日期格式
+  registeredCapital: number;
+  legalRepresentativeName: string;
+  legalRepresentativePhone: string;
+  legalRepresentativeId: string;
   industry: string;
-  business_scope: string;
-  verified_customer: boolean;
-  szse_member: boolean;
-  szse_member_code: string;
-  szse_member_abbreviation: string;
-  customer_status: string;
+  businessScope: string;
+  verifiedCustomer: boolean;
+  szseMember: boolean;
+  szseMemberCode: string;
+  szseMemberAbbreviation: string;
+  customerStatus: string;
   country: string;
   province: string;
   city: string;
-  business_license_number: string;
-  business_license_expiry: string; // 根据实际情况选择合适的日期格式
-  primary_contact_name: string;
-  primary_contact_position: string;
-  primary_contact_phone: string;
-  primary_contact_email: string;
+  businessLicenseNumber: string;
+  businessLicenseExpiry: string; // 根据实际情况选择合适的日期格式
+  primaryContactName: string;
+  primaryContactPosition: string;
+  primaryContactPhone: string;
+  primaryContactEmail: string;
 }
 
 const query = reactive({
 	location: '',
-	unified_social_credit: '',
+	unifiedSocialCredit: '',
 	pageIndex: 1,
 	pageSize: 10,
 });
@@ -467,36 +467,36 @@ const exportXlsxPage = () => {
   tableData.value.map((item: TableItem, i: number) => {
     const arr: any[] = [i + 1];
     arr.push(
-      item.company_code,
-      item.company_name,
-      item.company_abbreviation || "", // 如果字段可能为空，请进行适当的处理
-      item.company_type || "",
-      item.registered_location,
-      item.unified_social_credit,
-      item.registered_address,
-      item.registered_phone,
-      item.company_email,
-      item.establishment_date,
-      item.registered_capital,
-      item.legal_representative_name,
-      item.legal_representative_phone,
-      item.legal_representative_id,
+      item.companyCode,
+      item.companyName,
+      item.companyAbbreviation || "", // 如果字段可能为空，请进行适当的处理
+      item.companyType || "",
+      item.registeredLocation,
+      item.unifiedSocialCredit,
+      item.registeredAddress,
+      item.registeredPhone,
+      item.companyEmail,
+      item.establishmentDate,
+      item.registeredCapital,
+      item.legalRepresentativeName,
+      item.legalRepresentativePhone,
+      item.legalRepresentativeId,
       item.industry,
-      item.business_scope,
-      item.verified_customer,
-      item.szse_member,
-      item.szse_member_code,
-      item.szse_member_abbreviation,
-      item.customer_status,
+      item.businessScope,
+      item.verifiedCustomer,
+      item.szseMember,
+      item.szseMemberCode,
+      item.szseMemberAbbreviation,
+      item.customerStatus,
       item.country,
       item.province,
       item.city,
-      item.business_license_number,
-      item.business_license_expiry,
-      item.primary_contact_name,
-      item.primary_contact_position,
-      item.primary_contact_phone,
-      item.primary_contact_email
+      item.businessLicenseNumber,
+      item.businessLicenseExpiry,
+      item.primaryContactName,
+      item.primaryContactPosition,
+      item.primaryContactPhone,
+      item.primaryContactEmail
     );
     list.push(arr);
   });
@@ -526,7 +526,7 @@ getCompanyData(query.pageIndex - 1, query.pageSize);
 const handleSearch = () => {
 
 	query.pageIndex = 1;
-	let code = query.unified_social_credit;
+	let code = query.unifiedSocialCredit;
     if(code == ""){
         query.location = "";
         getCompanyData(query.pageIndex - 1, query.pageSize);
@@ -554,7 +554,7 @@ const handlePageChange = (val: number) => {
 // 删除操作
 const handleDelete = (index: number, row: any) => {
     
-    let code = row.company_code
+    let code = row.companyCode
 	// 二次确认删除
 	ElMessageBox.confirm('确定要删除吗？', '提示', {
 		type: 'warning'
@@ -579,36 +579,36 @@ const phoneRegex = new RegExp(/^\d+$/);
 
 
 let form = reactive({
-    company_code: '',
-    company_name: '',
-    company_abbreviation: '',
-    registered_location: '',
-    company_type: '',
-    unified_social_credit: '',
-    registered_address: '',
-    registered_phone: '',
-    company_email: '',
-    establishment_date: '',
-    registered_capital: 0,
-    legal_representative_name: '',
-    legal_representative_phone: '',
-    legal_representative_id: '',
+    companyCode: '',
+    companyName: '',
+    companyAbbreviation: '',
+    registeredLocation: '',
+    companyType: '',
+    unifiedSocialCredit: '',
+    registeredAddress: '',
+    registeredPhone: '',
+    companyEmail: '',
+    establishmentDate: '',
+    registeredCapital: 0,
+    legalRepresentativeName: '',
+    legalRepresentativePhone: '',
+    legalRepresentativeId: '',
     industry: '',
-    business_scope: '',
-    verified_customer: false,
-    szse_member: false,
-    szse_member_code: '',
-    szse_member_abbreviation: '',
-    customer_status: '',
+    businessScope: '',
+    verifiedCustomer: false,
+    szseMember: false,
+    szseMemberCode: '',
+    szseMemberAbbreviation: '',
+    customerStatus: '',
     country: '',
     province: '',
     city: '',
-    business_license_number: '',
-    business_license_expiry: '',
-    primary_contact_name: '',
-    primary_contact_position: '',
-    primary_contact_phone: '',
-    primary_contact_email: ''
+    businessLicenseNumber: '',
+    businessLicenseExpiry: '',
+    primaryContactName: '',
+    primaryContactPosition: '',
+    primaryContactPhone: '',
+    primaryContactEmail: ''
 });
 
 
@@ -616,9 +616,9 @@ let form = reactive({
 // 表格编辑时弹窗和保存
 const handleSzseMemberChange = () => {
     isFormModified.value = true
-    if (!form.szse_member) {
-        form.szse_member_code = '';
-        form.szse_member_abbreviation = '';
+    if (!form.szseMember) {
+        form.szseMemberCode = '';
+        form.szseMemberAbbreviation = '';
     }
 };
 
@@ -640,23 +640,23 @@ const handleView = (index: number, row: any) => {
 
 const saveEdit = () => {
     if (isFormModified.value) {
-        if(!emailRegex.test(form.company_email) || !emailRegex.test(form.primary_contact_email)) {
+        if(!emailRegex.test(form.companyEmail) || !emailRegex.test(form.primaryContactEmail)) {
             ElMessage.error(`请输入正确的邮箱地址`);
             return ;
         }
 
-        if( !phoneRegex.test(form.primary_contact_phone)) {
+        if( !phoneRegex.test(form.primaryContactPhone)) {
             ElMessage.error(`请输入正确的电话`);
             return ;
         }
         // 将注册地转换为数字
         let registeredLocationValue = "0";
-        if (form.registered_location === "中国香港"){
+        if (form.registeredLocation === "中国香港"){
             registeredLocationValue = "1";
-        }else if (form.registered_location === "境外") {
+        }else if (form.registeredLocation === "境外") {
             registeredLocationValue = "2";
         } 
-        form.registered_location = registeredLocationValue;
+        form.registeredLocation = registeredLocationValue;
 
 
         updateCompanyInfo(form)
