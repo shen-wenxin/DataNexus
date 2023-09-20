@@ -11,7 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 public class HistoryRecordServiceImpl implements HistoryRecordService {
@@ -39,7 +33,7 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
 
     @Override
     public Page<HistoryRecord> findAll(Pageable pageable) {
-        return historyRecordRepository.findAll(pageable);
+        return historyRecordRepository.listRecords(pageable);
     }
 
     public byte[] exportHistoryRecordsAsExcel() throws IOException {
@@ -52,7 +46,7 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
         boolean hasMoreData = true;
         while (hasMoreData) {
             PageRequest pageable = PageRequest.of(page, pageSize);
-            Page<HistoryRecord> historyPage = historyRecordRepository.findAll(pageable);
+            Page<HistoryRecord> historyPage = historyRecordRepository.listRecords(pageable);
             List<HistoryRecord> history = historyPage.getContent();
 
             System.out.println("Get in exportHistoryRecordsAsExcel\n\n===>");
@@ -117,14 +111,14 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
 
 
     @Override
-    public Page<HistoryRecord> findByCode(Pageable pageable, String companyCode) {
-        return historyRecordRepository.findByCode(pageable, companyCode);
+    public Page<HistoryRecord> listRecordByCode(Pageable pageable, String companyCode) {
+        return historyRecordRepository.listRecordByCode(pageable, companyCode);
     }
 
 
     @Override
-    public Page<HistoryRecord> findByType(Pageable pageable, String type) {
-        return historyRecordRepository.findByType(pageable, type);
+    public Page<HistoryRecord> listRecordByType(Pageable pageable, String type) {
+        return historyRecordRepository.listRecordByType(pageable, type);
     }
 
 

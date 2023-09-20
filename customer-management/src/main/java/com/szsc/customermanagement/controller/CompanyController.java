@@ -39,7 +39,7 @@ public class CompanyController {
         @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<CompanyDTO> companies = companyService.getPagedCompanies(pageable);
+        Page<CompanyDTO> companies = companyService.listPagedCompanies(pageable);
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
@@ -50,7 +50,7 @@ public class CompanyController {
         @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<CompanyDTO> companies = companyService.getCompaniesByRegisteredLocation(registeredLocation, pageable);
+        Page<CompanyDTO> companies = companyService.listCompaniesByRegisteredLocation(registeredLocation, pageable);
         return new ResponseEntity<>(companies, HttpStatus.OK);
         
     }

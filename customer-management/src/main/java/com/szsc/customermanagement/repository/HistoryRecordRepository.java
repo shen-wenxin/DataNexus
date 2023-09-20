@@ -5,9 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface HistoryRecordRepository {
-    Page<HistoryRecord> findAll(Pageable pageable);
+    Page<HistoryRecord> listRecords(Pageable pageable);
 
-    Page<HistoryRecord> findByCode(Pageable pageable, String companyCode);
+    Page<HistoryRecord> listRecordByCode(Pageable pageable, String companyCode);
 
     HistoryRecord findById(int recordId);
 
@@ -15,7 +15,7 @@ public interface HistoryRecordRepository {
 
     void deleteById(int recordId);
 
-    Page<HistoryRecord> findByType(Pageable pageable, String type);
+    Page<HistoryRecord> listRecordByType(Pageable pageable, String type);
     
     // 其他自定义方法
     // ...

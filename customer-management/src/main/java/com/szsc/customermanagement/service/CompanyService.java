@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public interface ICompanyService {
+public interface CompanyService {
 
     // CompanyDTO getCompanyById(int companyId) throws CompanyNotFoundException;
 
@@ -23,9 +23,9 @@ public interface ICompanyService {
 
     void deleteCompany(String companyCode) throws CompanyNotFoundException;
 
-    Page<CompanyDTO> getPagedCompanies(Pageable pageable);
+    Page<CompanyDTO> listPagedCompanies(Pageable pageable);
 
-    Page<CompanyDTO> getCompaniesByRegisteredLocation(String registeredLocation, Pageable pageable);
+    Page<CompanyDTO> listCompaniesByRegisteredLocation(String registeredLocation, Pageable pageable);
 
     void updateCompany(CompanyDTO companyDTO);
 

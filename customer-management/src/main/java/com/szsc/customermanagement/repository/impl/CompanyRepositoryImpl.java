@@ -30,7 +30,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 
     @Override
-    public Page<Company> findAll(Pageable pageable) {
+    public Page<Company> listAllCompanies(Pageable pageable) {
         String countSql = "SELECT COUNT(*) FROM " + tableName;
         int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class);
         String selectSql = "SELECT * FROM " + tableName + " LIMIT ? OFFSET ?";
@@ -42,7 +42,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 
     @Override
-    public Page<Company> findByRegisteredLocation(Pageable pageable, String registeredLocation) {
+    public Page<Company> listCompaniesByRegisteredLocation(Pageable pageable, String registeredLocation) {
         int registeredLocationIndex = convertRegisteredLocation(registeredLocation);
 
         String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE registered_location = ?";
@@ -95,13 +95,13 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 
     @Override
-    public List<Company> findByType(String companyType) {
+    public List<Company> listCompaniesByType(String companyType) {
         String sql = "SELECT * FROM " + tableName + " WHERE company_type = ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Company.class), companyType);
     }
 
     @Override
-    public List<Company> findByUnifiedSocialCredit(String UnifiedSocialCredit) {
+    public List<Company> listCompaniesByUnifiedSocialCredit(String UnifiedSocialCredit) {
         String sql = "SELECT * FROM " + tableName + " WHERE unified_social_credit = ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Company.class), UnifiedSocialCredit);
     }

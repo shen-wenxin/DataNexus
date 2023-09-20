@@ -27,7 +27,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
     }
 
     @Override
-    public Page<HistoryRecord> findAll(Pageable pageable) {
+    public Page<HistoryRecord> listRecords(Pageable pageable) {
         String countSql = "SELECT COUNT(*) FROM " + tableName;
         int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class);
         String selectSql = "SELECT * FROM " + tableName + " LIMIT ? OFFSET ?";
@@ -39,7 +39,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
     }
 
     @Override
-    public Page<HistoryRecord> findByCode(Pageable pageable, String code) {
+    public Page<HistoryRecord> listRecordByCode(Pageable pageable, String code) {
         String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE company_code = ?";
         int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, code);
 
@@ -54,7 +54,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
     }
 
     @Override
-    public Page<HistoryRecord> findByType(Pageable pageable, String type) {
+    public Page<HistoryRecord> listRecordByType(Pageable pageable, String type) {
         String operation = convertOperationType(type);
 
         String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE operation_type = ?";

@@ -17,7 +17,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +28,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -124,10 +122,10 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public Page<CompanyDTO> getPagedCompanies(Pageable pageable) {
+    public Page<CompanyDTO> listPagedCompanies(Pageable pageable) {
 
         // 执行分页查询操作，获取分页结果
-        Page<Company> companyPage = companyRepository.findAll(pageable);
+        Page<Company> companyPage = companyRepository.listAllCompanies(pageable);
 
         LoggingUtils.logInfo(companyPage.toString());
         
@@ -145,8 +143,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Page<CompanyDTO> getCompaniesByRegisteredLocation(String registeredLocation, Pageable pageable) {
-        Page<Company> companyPage = companyRepository.findByRegisteredLocation(pageable, registeredLocation);
+    public Page<CompanyDTO> listCompaniesByRegisteredLocation(String registeredLocation, Pageable pageable) {
+        Page<Company> companyPage = companyRepository.listCompaniesByRegisteredLocation(pageable, registeredLocation);
 
         LoggingUtils.logInfo(companyPage.toString());
 
@@ -170,7 +168,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDTO> getCompanyByUnifiedSocialCredit(String unifiedSocialCredit) {
-        List<Company> companies = companyRepository.findByUnifiedSocialCredit(unifiedSocialCredit);
+        List<Company> companies = companyRepository.listCompaniesByUnifiedSocialCredit(unifiedSocialCredit);
         System.out.println("companies: " + companies);
         // 将分页结果转为CompanyDTO对象
         List<CompanyDTO> companyDTOList = companies
@@ -216,7 +214,7 @@ public class CompanyServiceImpl implements CompanyService {
         boolean hasMoreData = true;
         while (hasMoreData) {
             PageRequest pageable = PageRequest.of(page, pageSize);
-            Page<Company> companiesPage = companyRepository.findAll(pageable);
+            Page<Company> companiesPage = companyRepository.listAllCompanies(pageable);
             List<Company> companies = companiesPage.getContent();
 
             System.out.println("Get in exportCompanies\n\n===>");

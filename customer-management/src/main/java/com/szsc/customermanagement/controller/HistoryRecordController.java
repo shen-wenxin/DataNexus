@@ -1,6 +1,5 @@
 package com.szsc.customermanagement.controller;
 
-import com.szsc.customermanagement.dto.HistoryRecordDTO;
 import com.szsc.customermanagement.entity.HistoryRecord;
 import com.szsc.customermanagement.service.HistoryRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -74,7 +72,7 @@ public class HistoryRecordController {
 
     ) {
         PageRequest pageable = PageRequest.of(page, size);
-        Page<HistoryRecord> historyRecords = historyRecordService.findByCode(pageable, code);
+        Page<HistoryRecord> historyRecords = historyRecordService.listRecordByCode(pageable, code);
         return new ResponseEntity<>(historyRecords, HttpStatus.OK);
     }
 
@@ -86,7 +84,7 @@ public class HistoryRecordController {
 
     ) {
         PageRequest pageable = PageRequest.of(page, size);
-        Page<HistoryRecord> historyRecords = historyRecordService.findByType(pageable, type);
+        Page<HistoryRecord> historyRecords = historyRecordService.listRecordByType(pageable, type);
         return new ResponseEntity<>(historyRecords, HttpStatus.OK);
     }
 }

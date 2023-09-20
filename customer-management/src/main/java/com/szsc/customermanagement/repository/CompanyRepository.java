@@ -7,18 +7,18 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CompanyRepository {
-    Page<Company> findAll(Pageable pageable);
+    Page<Company> listAllCompanies(Pageable pageable);
 
-    Page<Company> findByRegisteredLocation(Pageable pageable, String registedLocation);
+    Page<Company> listCompaniesByRegisteredLocation(Pageable pageable, String registedLocation);
 
     Company findById(int companyId) throws CompanyNotFoundException;
 
     Company findByCode(String companyCode) throws CompanyNotFoundException;
 
 
-    List<Company> findByType(String companyType);
+    List<Company> listCompaniesByType(String companyType);
 
-    List<Company> findByUnifiedSocialCredit(String UnifiedSocialCredit);
+    List<Company> listCompaniesByUnifiedSocialCredit(String UnifiedSocialCredit);
     
 
     void save(Company company);
