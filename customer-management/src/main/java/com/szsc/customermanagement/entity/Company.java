@@ -1,15 +1,14 @@
 package com.szsc.customermanagement.entity;
 
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import com.szsc.customermanagement.enums.LocationEnum;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Company {
 
     private int companyId;
@@ -43,41 +42,4 @@ public class Company {
     private String primaryContactPosition;
     private String primaryContactPhone;
     private String primaryContactEmail;
-
-    @Override
-    public String toString() {
-        return "Company{" +
-                "companyId=" + companyId +
-                ", companyCode='" + companyCode + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", companyAbbreviation='" + companyAbbreviation + '\'' +
-                ", companyType='" + companyType + '\'' +
-                ", registeredLocation='" + registeredLocation + '\'' +
-                ", unifiedSocialCredit='" + unifiedSocialCredit + '\'' +
-                ", registeredAddress='" + registeredAddress + '\'' +
-                ", registeredPhone='" + registeredPhone + '\'' +
-                ", companyEmail='" + companyEmail + '\'' +
-                ", establishmentDate='" + establishmentDate + '\'' +
-                ", registeredCapital=" + registeredCapital +
-                ", legalRepresentativeName='" + legalRepresentativeName + '\'' +
-                ", legalRepresentativePhone='" + legalRepresentativePhone + '\'' +
-                ", legalRepresentativeId='" + legalRepresentativeId + '\'' +
-                ", industry='" + industry + '\'' +
-                ", businessScope='" + businessScope + '\'' +
-                ", isVerifiedCustomer=" + verifiedCustomer +
-                ", isSzseMember=" + szseMember +
-                ", szseMemberCode='" + szseMemberCode + '\'' +
-                ", szseMemberAbbreviation='" + szseMemberAbbreviation + '\'' +
-                ", customerStatus='" + customerStatus + '\'' +
-                ", country='" + country + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", businessLicenseNumber='" + businessLicenseNumber + '\'' +
-                ", businessLicenseExpiry='" + businessLicenseExpiry + '\'' +
-                ", primaryContactName='" + primaryContactName + '\'' +
-                ", primaryContactPosition='" + primaryContactPosition + '\'' +
-                ", primaryContactPhone='" + primaryContactPhone + '\'' +
-                ", primaryContactEmail='" + primaryContactEmail + '\'' +
-                '}';
-    }
 }

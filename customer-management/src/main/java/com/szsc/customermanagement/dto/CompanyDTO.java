@@ -2,15 +2,14 @@ package com.szsc.customermanagement.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import com.szsc.customermanagement.enums.LocationEnum;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CompanyDTO {
     private String companyCode;
     private String companyName;
@@ -43,41 +42,7 @@ public class CompanyDTO {
     private String primaryContactPhone;
     private String primaryContactEmail;
 
-    @Override
-    public String toString() {
-        return "CompanyDTO{" +
-                "companyCode='" + companyCode + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", companyAbbreviation='" + companyAbbreviation + '\'' +
-                ", companyType='" + companyType + '\'' +
-                ", registeredLocation='" + registeredLocation + '\'' +
-                ", unifiedSocialCredit='" + unifiedSocialCredit + '\'' +
-                ", registeredAddress='" + registeredAddress + '\'' +
-                ", registeredPhone='" + registeredPhone + '\'' +
-                ", companyEmail='" + companyEmail + '\'' +
-                ", establishmentDate=" + establishmentDate +
-                ", registeredCapital=" + registeredCapital +
-                ", legalRepresentativeName='" + legalRepresentativeName + '\'' +
-                ", legalRepresentativePhone='" + legalRepresentativePhone + '\'' +
-                ", legalRepresentativeId='" + legalRepresentativeId + '\'' +
-                ", industry='" + industry + '\'' +
-                ", businessScope='" + businessScope + '\'' +
-                ", verifiedCustomer=" + verifiedCustomer +
-                ", szseMember=" + szseMember +
-                ", szseMemberCode='" + szseMemberCode + '\'' +
-                ", szseMemberAbbreviation='" + szseMemberAbbreviation + '\'' +
-                ", customerStatus='" + customerStatus + '\'' +
-                ", country='" + country + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", businessLicenseNumber='" + businessLicenseNumber + '\'' +
-                ", businessLicenseExpiry=" + businessLicenseExpiry +
-                ", primaryContactName='" + primaryContactName + '\'' +
-                ", primaryContactPosition='" + primaryContactPosition + '\'' +
-                ", primaryContactPhone='" + primaryContactPhone + '\'' +
-                ", primaryContactEmail='" + primaryContactEmail + '\'' +
-                '}';
-    }
+
 
 
 
