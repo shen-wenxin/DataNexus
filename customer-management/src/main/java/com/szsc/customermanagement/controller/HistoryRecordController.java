@@ -66,7 +66,7 @@ public class HistoryRecordController {
         return new ResponseEntity<>(historyRecords, HttpStatus.OK);
     }
 
-    @GetMapping("/paged/code")
+    @GetMapping("/paged_code")
     public ResponseEntity<Page<HistoryRecord>> getPagedHistoryRecordsByCode(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -78,7 +78,7 @@ public class HistoryRecordController {
         return new ResponseEntity<>(historyRecords, HttpStatus.OK);
     }
 
-    @GetMapping("/paged/type")
+    @GetMapping("/paged_type")
     public ResponseEntity<Page<HistoryRecord>> getPagedHistoryRecordsByType(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,

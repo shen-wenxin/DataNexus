@@ -9,23 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -51,7 +43,7 @@ public class CompanyController {
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
-    @GetMapping("/search/registered_location")
+    @GetMapping("/search_registered_location")
     public ResponseEntity<Page<CompanyDTO>> getCompaniesByRegisteredLocation(
         @RequestParam(defaultValue = AppConfig.CODE_LOCATION_CHINA_MAINLAND) String registeredLocation,
         @RequestParam(defaultValue = "0") int page,

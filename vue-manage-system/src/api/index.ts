@@ -20,7 +20,7 @@ export const getAllCompanies = (page: number, size: number) => {
 };
 
 export const getCompaniesByRegisteredLocation = (location:string, page: number, size: number) => {
-    const url = 'http://localhost:8080/companies/search/registered_location'
+    const url = 'http://localhost:8080/companies/search_registered_location'
     return request({
         url: url,
         method : 'GET',
@@ -105,7 +105,7 @@ export const getAllHistory = (page: number, size: number) => {
 };
 
 export const getHistoryByCode = (code:string, page: number, size: number) => {
-    const url = 'http://localhost:8080/history-records/paged/code'
+    const url = 'http://localhost:8080/history-records/paged_code'
     return request({
         url: url,
         method : 'GET',
@@ -119,7 +119,7 @@ export const getHistoryByCode = (code:string, page: number, size: number) => {
 };
 
 export const getHistoryByType = (type:string, page: number, size: number) => {
-    const url = 'http://localhost:8080/history-records/paged/type'
+    const url = 'http://localhost:8080/history-records/paged_type'
     return request({
         url: url,
         method : 'GET',
