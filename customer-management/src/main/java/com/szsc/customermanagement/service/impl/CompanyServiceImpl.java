@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -214,7 +215,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public LocationCountDTO getCompanyLocationCount() {
+    public LocationCountDTO countCompanyLocation() {
 
         int mainland = companyRepository.CompanyCount(AppConfig.CODE_LOCATION_CHINA_MAINLAND);
         int hongkong = companyRepository.CompanyCount(AppConfig.CODE_LOCATION_HONG_KONG);
@@ -234,12 +235,10 @@ public class CompanyServiceImpl implements CompanyService {
     
 
     @Override
-    public byte[] exportCompanies() throws IOException {
+    public List<Company> exportCompanies() throws IOException {
         int pageSize = 100; // 每页记录数
         int page = 0; // 当前页数
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Workbook workbook = new XSSFWorkbook();
+        List<Company> allCompanies = new ArrayList<>();
 
         boolean hasMoreData = true;
         while (hasMoreData) {
@@ -250,97 +249,16 @@ public class CompanyServiceImpl implements CompanyService {
             if (companies.isEmpty()) {
                 break; // 没有更多数据，退出循环
             }
-
-            Sheet sheet = workbook.createSheet("Companies - Page " + (page + 1));
-
-            // 创建表头
-            Row headerRow = sheet.createRow(0);
-            String[] headers = {
-                "Company ID",
-                "Company Code",
-                "Company Name",
-                "Company Abbreviation",
-                "Company Type",
-                "Registered Location",
-                "Unified Social Credit",
-                "Registered Address",
-                "Registered Phone",
-                "Company Email",
-                "Establishment Date",
-                "Registered Capital",
-                "Legal Representative Name",
-                "Legal Representative Phone",
-                "Legal Representative ID",
-                "Industry",
-                "Business Scope",
-                "Verified Customer",
-                "SZSE Member",
-                "SZSE Member Code",
-                "SZSE Member Abbreviation",
-                "Customer Status",
-                "Country",
-                "Province",
-                "City",
-                "Business License Number",
-                "Business License Expiry",
-                "Primary Contact Name",
-                "Primary Contact Position",
-                "Primary Contact Phone",
-                "Primary Contact Email"
-            };
-            for (int i = 0; i < headers.length; i++) {
-                headerRow.createCell(i).setCellValue(headers[i]);
-            }
-
-            // 填充数据行
-            int rowNum = 1;
-            int idx = 1;
-            for (Company company : companies) {
-                Row dataRow = sheet.createRow(rowNum++);
-
-                dataRow.createCell(0).setCellValue(idx ++);
-                dataRow.createCell(1).setCellValue(company.getCompanyCode());
-                dataRow.createCell(2).setCellValue(company.getCompanyName());
-                dataRow.createCell(3).setCellValue(company.getCompanyAbbreviation());
-                dataRow.createCell(4).setCellValue(company.getCompanyType());
-                dataRow.createCell(5).setCellValue(company.getRegisteredLocation());
-                dataRow.createCell(6).setCellValue(company.getUnifiedSocialCredit());
-                dataRow.createCell(7).setCellValue(company.getRegisteredAddress());
-                dataRow.createCell(8).setCellValue(company.getRegisteredPhone());
-                dataRow.createCell(9).setCellValue(company.getCompanyEmail());
-                dataRow.createCell(10).setCellValue(company.getEstablishmentDate());
-                dataRow.createCell(11).setCellValue(company.getRegisteredCapital().doubleValue());
-                dataRow.createCell(12).setCellValue(company.getLegalRepresentativeName());
-                dataRow.createCell(13).setCellValue(company.getLegalRepresentativePhone());
-                dataRow.createCell(14).setCellValue(company.getLegalRepresentativeId());
-                dataRow.createCell(15).setCellValue(company.getIndustry());
-                dataRow.createCell(16).setCellValue(company.getBusinessScope());
-                dataRow.createCell(17).setCellValue(company.getVerifiedCustomer());
-                dataRow.createCell(18).setCellValue(company.getSzseMember());
-                dataRow.createCell(19).setCellValue(company.getSzseMemberCode());
-                dataRow.createCell(20).setCellValue(company.getSzseMemberAbbreviation());
-                dataRow.createCell(21).setCellValue(company.getCustomerStatus());
-                dataRow.createCell(22).setCellValue(company.getCountry());
-                dataRow.createCell(23).setCellValue(company.getProvince());
-                dataRow.createCell(24).setCellValue(company.getCity());
-                dataRow.createCell(25).setCellValue(company.getBusinessLicenseNumber());
-                dataRow.createCell(26).setCellValue(company.getBusinessLicenseExpiry());
-                dataRow.createCell(27).setCellValue(company.getPrimaryContactName());
-                dataRow.createCell(28).setCellValue(company.getPrimaryContactPosition());
-                dataRow.createCell(29).setCellValue(company.getPrimaryContactPhone());
-                dataRow.createCell(30).setCellValue(company.getPrimaryContactEmail());
-            }
+            allCompanies.addAll(allCompanies);
 
             page++;
 
             // 检查是否有更多页
             hasMoreData = companiesPage.hasNext();
         }
+        return allCompanies;
 
-        workbook.write(outputStream);
-        workbook.close();
 
-        return outputStream.toByteArray();
     }
 
 

@@ -2,6 +2,7 @@ package com.szsc.customermanagement.service;
 
 import com.szsc.customermanagement.dto.CompanyDTO;
 import com.szsc.customermanagement.dto.LocationCountDTO;
+import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.exception.CompanyNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,8 +32,8 @@ public interface CompanyService {
 
     List<CompanyDTO> getCompanyByUnifiedSocialCredit(String unifiedSocialCredit);
 
-    byte[] exportCompanies() throws IOException;
-    LocationCountDTO getCompanyLocationCount();
+    List<Company> exportCompanies() throws IOException;
+    LocationCountDTO countCompanyLocation();
 
     
 

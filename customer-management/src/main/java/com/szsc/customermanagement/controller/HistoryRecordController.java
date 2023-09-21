@@ -1,5 +1,9 @@
 package com.szsc.customermanagement.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.entity.HistoryRecord;
 import com.szsc.customermanagement.service.HistoryRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -30,31 +36,34 @@ public class HistoryRecordController {
 
 
     @GetMapping("/export")
-    public ResponseEntity<ByteArrayResource> exportHistoryRecordsAsExcel() {
+    public void exportHistoryRecordsAsExcel(HttpServletResponse response) {
         try {
-            byte[] excelData = historyRecordService.exportHistoryRecordsAsExcel();
+            List<HistoryRecord> historyRecordList = historyRecordService.exportHistoryRecords();
 
+            // 设置响应头信息
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding("utf-8");
+            String fileName = "history_export.xlsx";
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 
-            // Create ByteArrayResource from excelData
-            ByteArrayResource resource;
-            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-                outputStream.write(excelData);
-                resource = new ByteArrayResource(outputStream.toByteArray());
-            }
+            // 创建ExcelWriter对象
+            ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream(), HistoryRecord.class).build();
 
-            // Define response headers
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "history_records.xlsx");
+            // 创建WriteSheet对象，并设置相关信息
+            WriteSheet writeSheet = EasyExcel.writerSheet("Sheet1").build();
 
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(resource.contentLength())
-                    .body(resource);
+            // 写入数据到Excel
+            excelWriter.write(historyRecordList, writeSheet);
+
+            // 关闭ExcelWriter，释放资源
+            excelWriter.finish();
+
+            // 返回空的响应体，因为Excel数据已经通过response直接写出了
+
         } catch (IOException e) {
             // Handle exception
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 

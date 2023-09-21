@@ -3,6 +3,7 @@ package com.szsc.customermanagement.controller;
 import com.szsc.customermanagement.config.AppConfig;
 import com.szsc.customermanagement.dto.CompanyDTO;
 import com.szsc.customermanagement.dto.LocationCountDTO;
+import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.exception.CompanyNotFoundException;
 import com.szsc.customermanagement.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -58,26 +62,39 @@ public class CompanyController {
 
     @GetMapping("/count")
     public ResponseEntity<LocationCountDTO> getCompaniesLocationCount() {
-        LocationCountDTO count = companyService.getCompanyLocationCount();
+        LocationCountDTO count = companyService.countCompanyLocation();
         return new ResponseEntity<>(count, HttpStatus.OK);
         
     }
 
     @GetMapping("/export")
     public void exportCompanies(HttpServletResponse response) {
-        try (OutputStream outputStream = response.getOutputStream()) {
-            byte[] excelData = companyService.exportCompanies();
+        try {
+            //easyExcel中的ExcelWriter类并没有实现AutoCloseable接口，因此无法直接在try-with-resources语句中使用
+            List<Company> companies = companyService.exportCompanies();
 
-            // Set response headers
-            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.setHeader("Content-Disposition", "attachment; filename=companies.xlsx");
+            // 设置响应头信息
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding("utf-8");
+            String fileName = "company_export.xlsx";
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 
-            // Write excel data to response
-            outputStream.write(excelData);
-            outputStream.flush();
-        } catch (IOException e) {
-            // Handle exception
+            // 创建ExcelWriter对象
+            ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream(), Company.class).build();
+
+            // 创建WriteSheet对象，并设置相关信息
+            WriteSheet writeSheet = EasyExcel.writerSheet("Sheet1").build();
+
+            // 写入数据到Excel
+            excelWriter.write(companies, writeSheet);
+
+            // 关闭ExcelWriter，释放资源
+            excelWriter.finish();
+
+        } catch (Exception e) {
+            // 处理异常
             e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
