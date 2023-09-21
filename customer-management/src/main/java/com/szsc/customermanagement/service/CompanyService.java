@@ -27,7 +27,7 @@ public interface CompanyService {
 
     Page<CompanyDTO> listCompaniesByRegisteredLocation(String registeredLocation, Pageable pageable);
 
-    void updateCompany(CompanyDTO companyDTO);
+    void updateCompany(CompanyDTO companyDTO) throws CompanyNotFoundException;
 
     List<CompanyDTO> getCompanyByUnifiedSocialCredit(String unifiedSocialCredit);
 

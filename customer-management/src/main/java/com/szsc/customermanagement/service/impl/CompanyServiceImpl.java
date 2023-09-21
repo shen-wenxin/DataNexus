@@ -70,25 +70,33 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void updateCompany(CompanyDTO companyDTO) {
-        LoggingUtils.logInfo("Begin to update Company.");
+    public void updateCompany(CompanyDTO companyDTO) throws CompanyNotFoundException{
+        LoggingUtils.logInfo("Begin to update Company");
 
         Company company = MapperUtils.INSTANCE.dtoToEntity(companyDTO);
 
         String companyCode = company.getCompanyCode();
 
-        Company companyOld = companyRepository.findByCode(companyCode);
-        companyRepository.update(company);
-        String companyOldStr = companyOld.toString();
-        
-        String companyNewStr = company.toString();
-        String remarks = "";
+        try {
+            Company companyOld = companyRepository.findByCode(companyCode);
+            companyRepository.update(company);
+            String companyOldStr = companyOld.toString();
 
-        HistoryRecord record = buildRecord(companyCode, AppConfig.TYPE_OPERATION_UPDATE, AppConfig.ADMIN_OPERATOR, AppConfig.TABLE_COMPANY_MAIN, companyOldStr, companyNewStr, remarks);
+            String companyNewStr = company.toString();
+            String remarks = "";
 
-        historyRecordRepository.save(record);
+            HistoryRecord record = buildRecord(companyCode, AppConfig.TYPE_OPERATION_UPDATE, AppConfig.ADMIN_OPERATOR, AppConfig.TABLE_COMPANY_MAIN, companyOldStr, companyNewStr, remarks);
 
-        LoggingUtils.logInfo("Company has been updated in database");
+            historyRecordRepository.save(record);
+
+            LoggingUtils.logInfo("Company has been updated in the database");
+        } catch (CompanyNotFoundException e) {
+            // 处理CompanyNotFoundException异常
+            String errorMessage = "Company not found with ID: " + companyCode;
+            LoggingUtils.logError(errorMessage, null);
+            // 返回错误信息给调用方
+            throw new CompanyNotFoundException(errorMessage);
+        }
     }
    
 
@@ -100,16 +108,26 @@ public class CompanyServiceImpl implements CompanyService {
         if (existingCompany == null) {
             throw new CompanyNotFoundException("Company not found with ID: " + companyCode);
         }
+        try{
+            String CompanyOldStr = companyRepository.findByCode(companyCode).toString();
+            String CompanyNewStr = "";
+            String remarks = "";
 
-        String CompanyOldStr = companyRepository.findByCode(companyCode).toString();
-        String CompanyNewStr = "";
-        String remarks = "";
-
-        HistoryRecord record = buildRecord(companyCode, AppConfig.TYPE_OPERATION_DELETE, AppConfig.ADMIN_OPERATOR, AppConfig.TABLE_COMPANY_MAIN, CompanyOldStr,CompanyNewStr, remarks);
+            HistoryRecord record = buildRecord(companyCode, AppConfig.TYPE_OPERATION_DELETE, AppConfig.ADMIN_OPERATOR, AppConfig.TABLE_COMPANY_MAIN, CompanyOldStr,CompanyNewStr, remarks);
 
 
-        companyRepository.delete(companyCode);
-        historyRecordRepository.save(record);
+            companyRepository.delete(companyCode);
+            historyRecordRepository.save(record);
+
+        } catch (CompanyNotFoundException e) {
+            // 处理CompanyNotFoundException异常
+            String errorMessage = "Company not found with ID: " + companyCode;
+            LoggingUtils.logError(errorMessage, null);
+            // 返回错误信息给调用方
+            throw new CompanyNotFoundException(errorMessage);
+        }
+
+
     }
 
 
