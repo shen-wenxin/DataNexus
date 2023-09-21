@@ -47,14 +47,14 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = MapperUtils.INSTANCE.dtoToEntity(companyDTO);
         LoggingUtils.logInfo("company: " + company.toString());
 
-        String company_code = company.getCompanyCode();
+        String companyCode = company.getCompanyCode();
 
         // check the database if the company code is exist.
-        if(companyRepository.companyCodeChecker(company_code) ||
-            companyRepository.unifiedSocialCreditChecker(company_code)){
+        if(companyRepository.companyCodeChecker(companyCode) ||
+            companyRepository.unifiedSocialCreditChecker(companyCode)){
             // exist
-            LoggingUtils.logError("Company with code " + company_code + " already exists.", null);
-            throw new CompanyAlreadyExistsException("Company with code " + company_code + " already exists.");
+            LoggingUtils.logError("Company with code " + companyCode + " already exists.", null);
+            throw new CompanyAlreadyExistsException("Company with code " + companyCode + " already exists.");
 
         }else {
             // not exist
@@ -62,8 +62,14 @@ public class CompanyServiceImpl implements CompanyService {
 
             String companyOldStr = "";
             String remarks = "";
-            HistoryRecord record = buildRecord(company_code, AppConfig.TYPE_OPERATION_CREATE,AppConfig.ADMIN_OPERATOR ,AppConfig.TABLE_COMPANY_MAIN, companyOldStr, company.toString(), remarks);
-            historyRecordRepository.save(record);
+            HistoryRecord record = HistoryRecord.builder()
+                    .companyCode(companyCode)
+                    .operationType(AppConfig.TYPE_OPERATION_CREATE)
+                    .operator(AppConfig.ADMIN_OPERATOR)
+                    .modifiedField(AppConfig.TABLE_COMPANY_MAIN)
+                    .oldValue("")
+                    .newValue(company.toString())
+                    .remark("").build();
         }
 
         LoggingUtils.logInfo("Company has been saved in database");
@@ -83,10 +89,16 @@ public class CompanyServiceImpl implements CompanyService {
             String companyOldStr = companyOld.toString();
 
             String companyNewStr = company.toString();
-            String remarks = "";
 
-            HistoryRecord record = buildRecord(companyCode, AppConfig.TYPE_OPERATION_UPDATE, AppConfig.ADMIN_OPERATOR, AppConfig.TABLE_COMPANY_MAIN, companyOldStr, companyNewStr, remarks);
-
+            HistoryRecord record = HistoryRecord.builder()
+                    .companyCode(companyCode)
+                    .operationType(AppConfig.TYPE_OPERATION_UPDATE)
+                    .operator(AppConfig.ADMIN_OPERATOR)
+                    .modifiedField(AppConfig.TABLE_COMPANY_MAIN)
+                    .oldValue(companyOldStr)
+                    .newValue(companyNewStr)
+                    .remark("")
+                    .build();
             historyRecordRepository.save(record);
 
             LoggingUtils.logInfo("Company has been updated in the database");
@@ -110,10 +122,16 @@ public class CompanyServiceImpl implements CompanyService {
         }
         try{
             String CompanyOldStr = companyRepository.findByCode(companyCode).toString();
-            String CompanyNewStr = "";
-            String remarks = "";
 
-            HistoryRecord record = buildRecord(companyCode, AppConfig.TYPE_OPERATION_DELETE, AppConfig.ADMIN_OPERATOR, AppConfig.TABLE_COMPANY_MAIN, CompanyOldStr,CompanyNewStr, remarks);
+            HistoryRecord record = HistoryRecord.builder()
+                    .companyCode(companyCode)
+                    .operationType(AppConfig.TYPE_OPERATION_DELETE)
+                    .operator(AppConfig.ADMIN_OPERATOR)
+                    .modifiedField(AppConfig.TABLE_COMPANY_MAIN)
+                    .oldValue(CompanyOldStr)
+                    .newValue("")
+                    .remark("")
+                    .build();
 
 
             companyRepository.delete(companyCode);
@@ -323,19 +341,6 @@ public class CompanyServiceImpl implements CompanyService {
         workbook.close();
 
         return outputStream.toByteArray();
-    }
-
-    private HistoryRecord buildRecord(String companyCode, String OperationType, String Operator, String ModifiedField, String OldValue, String NewValue, String Remark) {
-        HistoryRecord historyRecord = new HistoryRecord();
-        historyRecord.setCompanyCode(companyCode);
-        historyRecord.setOperationType(OperationType);
-        historyRecord.setOperationTime(LocalDateTime.now());
-        historyRecord.setOperator(Operator);
-        historyRecord.setModifiedField(ModifiedField);
-        historyRecord.setOldValue(OldValue);
-        historyRecord.setNewValue(NewValue);
-        historyRecord.setRemark(Remark);
-        return historyRecord;
     }
 
 

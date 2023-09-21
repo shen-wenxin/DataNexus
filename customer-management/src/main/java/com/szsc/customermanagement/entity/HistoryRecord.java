@@ -9,10 +9,14 @@ import com.szsc.customermanagement.enums.LocationEnum;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 
 public class HistoryRecord {
-    private int recordId;
+    @Builder.Default
+    private Integer recordId = null;
+    @NonNull
     private String companyCode;
+    @NonNull
     private String operationType;
     private LocalDateTime operationTime;
     private String operator;
