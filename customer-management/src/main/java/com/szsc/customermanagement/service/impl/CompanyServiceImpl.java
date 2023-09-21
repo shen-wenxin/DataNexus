@@ -100,7 +100,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (existingCompany == null) {
             throw new CompanyNotFoundException("Company not found with ID: " + companyCode);
         }
-        System.out.println("existingCompany" + existingCompany.toString());
+
         String CompanyOldStr = companyRepository.findByCode(companyCode).toString();
         String CompanyNewStr = "";
         String remarks = "";
@@ -166,14 +166,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public List<CompanyDTO> getCompanyByUnifiedSocialCredit(String unifiedSocialCredit) {
         List<Company> companies = companyRepository.listCompaniesByUnifiedSocialCredit(unifiedSocialCredit);
-        System.out.println("companies: " + companies);
         // 将分页结果转为CompanyDTO对象
         List<CompanyDTO> companyDTOList = companies
         .stream()
         .map(MapperUtils.INSTANCE::entityToDto)
         .collect(Collectors.toList());
-
-        System.out.println("companyDTOList: " + companyDTOList);
 
         LoggingUtils.logInfo(companyDTOList.toString());
 
@@ -213,9 +210,6 @@ public class CompanyServiceImpl implements CompanyService {
             PageRequest pageable = PageRequest.of(page, pageSize);
             Page<Company> companiesPage = companyRepository.listAllCompanies(pageable);
             List<Company> companies = companiesPage.getContent();
-
-            System.out.println("Get in exportCompanies\n\n===>");
-            System.out.println(companies.toString());
 
             if (companies.isEmpty()) {
                 break; // 没有更多数据，退出循环

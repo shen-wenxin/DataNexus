@@ -49,8 +49,6 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
             Page<HistoryRecord> historyPage = historyRecordRepository.listRecords(pageable);
             List<HistoryRecord> history = historyPage.getContent();
 
-            System.out.println("Get in exportHistoryRecordsAsExcel\n\n===>");
-            System.out.println(history.toString());
 
             if (history.isEmpty()) {
                 break; // 没有更多数据，退出循环

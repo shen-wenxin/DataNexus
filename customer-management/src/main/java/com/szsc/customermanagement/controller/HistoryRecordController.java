@@ -34,7 +34,6 @@ public class HistoryRecordController {
         try {
             byte[] excelData = historyRecordService.exportHistoryRecordsAsExcel();
 
-            System.out.println(excelData);
 
             // Create ByteArrayResource from excelData
             ByteArrayResource resource;
