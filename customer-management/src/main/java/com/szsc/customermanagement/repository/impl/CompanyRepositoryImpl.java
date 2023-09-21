@@ -179,14 +179,14 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     
     @Override
     public int convertRegisteredLocation(String registeredLocation) {
-        // 大坑 mysql enum的索引从1开始 离谱哈
+
         switch (registeredLocation) {
             case AppConfig.CODE_LOCATION_CHINA_MAINLAND :
-                return 1;
+                return AppConfig.INDEX_LOCATION_CHINA_MAINLAND;
             case AppConfig.CODE_LOCATION_HONG_KONG :
-                return 2;
+                return AppConfig.INDEX_LOCATION_HONG_KONG;
             case AppConfig.CODE_LOCATION_OVERSEAS:
-                return 3;
+                return AppConfig.INDEX_LOCATION_OVERSEAS;
             default:
                 throw new IllegalArgumentException("Invalid registered location: " + registeredLocation);
         }
