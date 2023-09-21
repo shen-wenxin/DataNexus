@@ -95,8 +95,8 @@ public class CompanyController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<Integer> createCompany(@RequestBody CompanyDTO companyDTO) throws UnsupportedEncodingException {
-        companyService.createCompany(companyDTO);
+    public ResponseEntity<Integer> insertCompany(@RequestBody CompanyDTO companyDTO) throws UnsupportedEncodingException {
+        companyService.insertCompany(companyDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

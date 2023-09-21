@@ -42,7 +42,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void createCompany(CompanyDTO companyDTO) {
+    public void insertCompany(CompanyDTO companyDTO) {
         LoggingUtils.logInfo("Begin to create Company.");
         Company company = MapperUtils.INSTANCE.dtoToEntity(companyDTO);
         LoggingUtils.logInfo("company: " + company.toString());
@@ -164,9 +164,9 @@ public class CompanyServiceImpl implements CompanyService {
         
         // 将分页结果转为CompanyDTO对象
         List<CompanyDTO> companyDTOList = companyPage.getContent()
-        .stream()
-        .map(MapperUtils.INSTANCE::entityToDto)
-        .collect(Collectors.toList());
+            .stream()
+            .map(MapperUtils.INSTANCE::entityToDto)
+            .collect(Collectors.toList());
 
         LoggingUtils.logInfo(companyDTOList.toString());
 
@@ -204,9 +204,9 @@ public class CompanyServiceImpl implements CompanyService {
         List<Company> companies = companyRepository.listCompaniesByUnifiedSocialCredit(unifiedSocialCredit);
         // 将分页结果转为CompanyDTO对象
         List<CompanyDTO> companyDTOList = companies
-        .stream()
-        .map(MapperUtils.INSTANCE::entityToDto)
-        .collect(Collectors.toList());
+            .stream()
+            .map(MapperUtils.INSTANCE::entityToDto)
+            .collect(Collectors.toList());
 
         LoggingUtils.logInfo(companyDTOList.toString());
 
