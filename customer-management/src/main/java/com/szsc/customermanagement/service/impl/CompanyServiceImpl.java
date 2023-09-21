@@ -67,7 +67,6 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         LoggingUtils.logInfo("Company has been saved in database");
-        return;
     }
 
     @Override
@@ -90,8 +89,6 @@ public class CompanyServiceImpl implements CompanyService {
         historyRecordRepository.save(record);
 
         LoggingUtils.logInfo("Company has been updated in database");
-        
-        return;
     }
    
 
