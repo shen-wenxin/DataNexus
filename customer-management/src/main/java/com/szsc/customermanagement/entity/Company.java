@@ -13,7 +13,7 @@ import com.szsc.customermanagement.enums.LocationEnum;
 @ToString
 public class Company {
     @ExcelIgnore // 忽略Excel导入导出
-    private Integer companyId; // 主键字段
+    private Long companyId; // 主键字段
 
     @ExcelProperty("公司代码")
     private String companyCode;

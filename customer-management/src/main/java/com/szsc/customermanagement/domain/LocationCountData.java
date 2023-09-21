@@ -1,4 +1,4 @@
-package com.szsc.customermanagement.dto;
+package com.szsc.customermanagement.domain;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LocationCountDTO {
+public class LocationCountData {
     private int total;
     private int mainland;
     private int hongkong;

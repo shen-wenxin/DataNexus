@@ -1,16 +1,16 @@
-package com.szsc.customermanagement.dto;
+package com.szsc.customermanagement.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.*;
-import com.szsc.customermanagement.enums.LocationEnum;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CompanyDTO {
+public class CompanyData {
     private String companyCode;
     private String companyName;
     private String companyAbbreviation;

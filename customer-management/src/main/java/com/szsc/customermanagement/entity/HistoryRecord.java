@@ -15,7 +15,7 @@ import com.szsc.customermanagement.enums.LocationEnum;
 public class HistoryRecord {
     @Builder.Default
     @ExcelProperty("记录ID")
-    private Integer recordId = null;
+    private Long recordId = null; // 主键字段
 
     @NonNull
     @ExcelProperty("公司代码")

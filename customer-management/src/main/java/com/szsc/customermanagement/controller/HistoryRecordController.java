@@ -3,6 +3,7 @@ package com.szsc.customermanagement.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.szsc.customermanagement.config.AppConfig;
 import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.entity.HistoryRecord;
 import com.szsc.customermanagement.service.HistoryRecordService;
@@ -43,7 +44,7 @@ public class HistoryRecordController {
             // 设置响应头信息
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
-            String fileName = "history_export.xlsx";
+            String fileName = AppConfig.FILE_NAME_XLSX_RECORDS;
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 
             // 创建ExcelWriter对象

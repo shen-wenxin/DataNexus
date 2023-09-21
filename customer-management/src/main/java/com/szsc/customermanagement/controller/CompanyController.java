@@ -1,8 +1,8 @@
 package com.szsc.customermanagement.controller;
 
 import com.szsc.customermanagement.config.AppConfig;
-import com.szsc.customermanagement.dto.CompanyDTO;
-import com.szsc.customermanagement.dto.LocationCountDTO;
+import com.szsc.customermanagement.domain.CompanyData;
+import com.szsc.customermanagement.domain.LocationCountData;
 import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.exception.CompanyNotFoundException;
 import com.szsc.customermanagement.service.CompanyService;
@@ -15,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
@@ -39,30 +37,30 @@ public class CompanyController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CompanyDTO>> getPagedCompanies(
+    public ResponseEntity<Page<CompanyData>> getPagedCompanies(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<CompanyDTO> companies = companyService.listPagedCompanies(pageable);
+        Page<CompanyData> companies = companyService.listPagedCompanies(pageable);
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
     @GetMapping("/search_registered_location")
-    public ResponseEntity<Page<CompanyDTO>> getCompaniesByRegisteredLocation(
+    public ResponseEntity<Page<CompanyData>> getCompaniesByRegisteredLocation(
         @RequestParam(defaultValue = AppConfig.CODE_LOCATION_CHINA_MAINLAND) String registeredLocation,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<CompanyDTO> companies = companyService.listCompaniesByRegisteredLocation(registeredLocation, pageable);
+        Page<CompanyData> companies = companyService.listCompaniesByRegisteredLocation(registeredLocation, pageable);
         return new ResponseEntity<>(companies, HttpStatus.OK);
         
     }
 
     @GetMapping("/count")
-    public ResponseEntity<LocationCountDTO> getCompaniesLocationCount() {
-        LocationCountDTO count = companyService.countCompanyLocation();
+    public ResponseEntity<LocationCountData> getCompaniesLocationCount() {
+        LocationCountData count = companyService.countCompanyLocation();
         return new ResponseEntity<>(count, HttpStatus.OK);
         
     }
@@ -76,7 +74,7 @@ public class CompanyController {
             // 设置响应头信息
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
-            String fileName = "company_export.xlsx";
+            String fileName = AppConfig.FILE_NAME_XLSX_COMPANY;
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 
             // 创建ExcelWriter对象
@@ -99,8 +97,8 @@ public class CompanyController {
     }
 
     @GetMapping("/{unifiedSocialCredit}")
-    public ResponseEntity<List<CompanyDTO>> getCompanyByUnifiedSocialCredit(@PathVariable String unifiedSocialCredit) {
-        List<CompanyDTO> companies;
+    public ResponseEntity<List<CompanyData>> getCompanyByUnifiedSocialCredit(@PathVariable String unifiedSocialCredit) {
+        List<CompanyData> companies;
         try {
             companies = companyService.getCompanyByUnifiedSocialCredit(unifiedSocialCredit);
         } catch (CompanyNotFoundException e) {
@@ -112,15 +110,15 @@ public class CompanyController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<Integer> insertCompany(@RequestBody CompanyDTO companyDTO) throws UnsupportedEncodingException {
-        companyService.insertCompany(companyDTO);
+    public ResponseEntity<Integer> insertCompany(@RequestBody CompanyData companyData) throws UnsupportedEncodingException {
+        companyService.insertCompany(companyData);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Void> updateCompany(@RequestBody CompanyDTO companyDTO) {
+    public ResponseEntity<Void> updateCompany(@RequestBody CompanyData companyData) {
         try {
-            companyService.updateCompany(companyDTO);
+            companyService.updateCompany(companyData);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (CompanyNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

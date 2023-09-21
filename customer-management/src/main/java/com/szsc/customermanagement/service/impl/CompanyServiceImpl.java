@@ -1,10 +1,10 @@
 package com.szsc.customermanagement.service.impl;
 
 import com.szsc.customermanagement.config.AppConfig;
+import com.szsc.customermanagement.domain.CompanyData;
 import com.szsc.customermanagement.utils.LoggingUtils;
 import com.szsc.customermanagement.utils.MapperUtils;
-import com.szsc.customermanagement.dto.CompanyDTO;
-import com.szsc.customermanagement.dto.LocationCountDTO;
+import com.szsc.customermanagement.domain.LocationCountData;
 import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.entity.HistoryRecord;
 import com.szsc.customermanagement.exception.CompanyAlreadyExistsException;
@@ -13,10 +13,6 @@ import com.szsc.customermanagement.repository.CompanyRepository;
 import com.szsc.customermanagement.repository.HistoryRecordRepository;
 import com.szsc.customermanagement.service.CompanyService;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,9 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,9 +37,9 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void insertCompany(CompanyDTO companyDTO) {
+    public void insertCompany(CompanyData companyData) {
         LoggingUtils.logInfo("Begin to create Company.");
-        Company company = MapperUtils.INSTANCE.dtoToEntity(companyDTO);
+        Company company = MapperUtils.INSTANCE.dtoToEntity(companyData);
         LoggingUtils.logInfo("company: " + company.toString());
 
         String companyCode = company.getCompanyCode();
@@ -77,10 +71,10 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void updateCompany(CompanyDTO companyDTO) throws CompanyNotFoundException{
+    public void updateCompany(CompanyData companyData) throws CompanyNotFoundException{
         LoggingUtils.logInfo("Begin to update Company");
 
-        Company company = MapperUtils.INSTANCE.dtoToEntity(companyDTO);
+        Company company = MapperUtils.INSTANCE.dtoToEntity(companyData);
 
         String companyCode = company.getCompanyCode();
 
@@ -156,7 +150,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public Page<CompanyDTO> listPagedCompanies(Pageable pageable) {
+    public Page<CompanyData> listPagedCompanies(Pageable pageable) {
 
         // 执行分页查询操作，获取分页结果
         Page<Company> companyPage = companyRepository.listAllCompanies(pageable);
@@ -164,34 +158,34 @@ public class CompanyServiceImpl implements CompanyService {
         LoggingUtils.logInfo(companyPage.toString());
         
         // 将分页结果转为CompanyDTO对象
-        List<CompanyDTO> companyDTOList = companyPage.getContent()
+        List<CompanyData> companyDataList = companyPage.getContent()
             .stream()
             .map(MapperUtils.INSTANCE::entityToDto)
             .collect(Collectors.toList());
 
-        LoggingUtils.logInfo(companyDTOList.toString());
+        LoggingUtils.logInfo(companyDataList.toString());
 
         // 创建一个新的Page对象，将CompanyDTO列表和分页信息传入
-        return new PageImpl<>(companyDTOList, pageable, companyPage.getTotalElements());
+        return new PageImpl<>(companyDataList, pageable, companyPage.getTotalElements());
 
     }
 
     @Override
-    public Page<CompanyDTO> listCompaniesByRegisteredLocation(String registeredLocation, Pageable pageable) {
+    public Page<CompanyData> listCompaniesByRegisteredLocation(String registeredLocation, Pageable pageable) {
         Page<Company> companyPage = companyRepository.listCompaniesByRegisteredLocation(pageable, registeredLocation);
 
         LoggingUtils.logInfo(companyPage.toString());
 
         // 将分页结果转为CompanyDTO对象
-        List<CompanyDTO> companyDTOList = companyPage.getContent()
+        List<CompanyData> companyDataList = companyPage.getContent()
         .stream()
         .map(MapperUtils.INSTANCE::entityToDto)
         .collect(Collectors.toList());
 
-        LoggingUtils.logInfo(companyDTOList.toString());
+        LoggingUtils.logInfo(companyDataList.toString());
 
         // 创建一个新的Page对象，将CompanyDTO列表和分页信息传入
-        return new PageImpl<>(companyDTOList, pageable, companyPage.getTotalElements());
+        return new PageImpl<>(companyDataList, pageable, companyPage.getTotalElements());
     }
 
 
@@ -201,21 +195,21 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public List<CompanyDTO> getCompanyByUnifiedSocialCredit(String unifiedSocialCredit) {
+    public List<CompanyData> getCompanyByUnifiedSocialCredit(String unifiedSocialCredit) {
         List<Company> companies = companyRepository.listCompaniesByUnifiedSocialCredit(unifiedSocialCredit);
         // 将分页结果转为CompanyDTO对象
-        List<CompanyDTO> companyDTOList = companies
+        List<CompanyData> companyDataList = companies
             .stream()
             .map(MapperUtils.INSTANCE::entityToDto)
             .collect(Collectors.toList());
 
-        LoggingUtils.logInfo(companyDTOList.toString());
+        LoggingUtils.logInfo(companyDataList.toString());
 
-        return companyDTOList;
+        return companyDataList;
     }
 
     @Override
-    public LocationCountDTO countCompanyLocation() {
+    public LocationCountData countCompanyLocation() {
 
         int mainland = companyRepository.CompanyCount(AppConfig.CODE_LOCATION_CHINA_MAINLAND);
         int hongkong = companyRepository.CompanyCount(AppConfig.CODE_LOCATION_HONG_KONG);
@@ -223,7 +217,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         int total = mainland + hongkong + overseas;
 
-        LocationCountDTO count = new LocationCountDTO();
+        LocationCountData count = new LocationCountData();
         count.setMainland(mainland);
         count.setHongkong(hongkong);
         count.setOverseas(overseas);
