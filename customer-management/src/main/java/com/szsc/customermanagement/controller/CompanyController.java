@@ -79,17 +79,18 @@ public class CompanyController {
             // Handle exception
             e.printStackTrace();
         }
-    } 
+    }
 
     @GetMapping("/{unifiedSocialCredit}")
     public ResponseEntity<List<CompanyDTO>> getCompanyByUnifiedSocialCredit(@PathVariable String unifiedSocialCredit) {
+        List<CompanyDTO> companies;
         try {
-            System.out.println("unifiedSocialCredit: " + unifiedSocialCredit);
-            List<CompanyDTO> companies = companyService.getCompanyByUnifiedSocialCredit(unifiedSocialCredit);
-            return new ResponseEntity<>(companies, HttpStatus.OK);
+            companies = companyService.getCompanyByUnifiedSocialCredit(unifiedSocialCredit);
         } catch (CompanyNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
 
