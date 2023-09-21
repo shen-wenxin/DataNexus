@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class CompanyController {
 
     @GetMapping("/export")
     public void exportCompanies(HttpServletResponse response) {
-        try {
+        try (OutputStream outputStream = response.getOutputStream()) {
             byte[] excelData = companyService.exportCompanies();
 
             // Set response headers
@@ -72,8 +73,8 @@ public class CompanyController {
             response.setHeader("Content-Disposition", "attachment; filename=companies.xlsx");
 
             // Write excel data to response
-            response.getOutputStream().write(excelData);
-            response.getOutputStream().flush();
+            outputStream.write(excelData);
+            outputStream.flush();
         } catch (IOException e) {
             // Handle exception
             e.printStackTrace();

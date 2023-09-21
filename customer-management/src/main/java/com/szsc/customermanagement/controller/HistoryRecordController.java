@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @RestController
@@ -36,7 +37,11 @@ public class HistoryRecordController {
             System.out.println(excelData);
 
             // Create ByteArrayResource from excelData
-            ByteArrayResource resource = new ByteArrayResource(excelData);
+            ByteArrayResource resource;
+            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                outputStream.write(excelData);
+                resource = new ByteArrayResource(outputStream.toByteArray());
+            }
 
             // Define response headers
             HttpHeaders headers = new HttpHeaders();
@@ -45,7 +50,7 @@ public class HistoryRecordController {
 
             return ResponseEntity.ok()
                     .headers(headers)
-                    .contentLength(excelData.length)
+                    .contentLength(resource.contentLength())
                     .body(resource);
         } catch (IOException e) {
             // Handle exception
