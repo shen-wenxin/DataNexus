@@ -33,7 +33,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
 
         int totalElementsNonNull = totalElements != null ? totalElements : 0;
 
-        String selectSql = "SELECT * FROM " + tableName + " ORDER BY operation_time DESC LIMIT ? OFFSET ?";
+        String selectSql = "SELECT * FROM " + tableName + " ORDER BY record_id DESC LIMIT ? OFFSET ?";
         int pageSize = pageable.getPageSize();
         int pageNumber = pageable.getPageNumber();
         int offset = pageNumber * pageSize;
@@ -46,7 +46,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
         String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE company_code = ?";
         Integer totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, code);
         int totalElementsNonNull = totalElements != null ? totalElements : 0;
-        String selectSql = "SELECT * FROM " + tableName + " WHERE company_code = ? ORDER BY operation_time DESC LIMIT ? OFFSET ?";
+        String selectSql = "SELECT * FROM " + tableName + " WHERE company_code = ? ORDER BY record_id DESC LIMIT ? OFFSET ?";
         int pageSize = pageable.getPageSize();
         int pageNumber = pageable.getPageNumber();
         int offset = pageNumber * pageSize;
@@ -64,7 +64,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
         Integer totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, operation);
         int totalElementsNonNull = totalElements != null ? totalElements : 0;
 
-        String selectSql = "SELECT * FROM " + tableName + " WHERE operation_type = ? ORDER BY operation_time DESC LIMIT ? OFFSET ?";
+        String selectSql = "SELECT * FROM " + tableName + " WHERE operation_type = ? ORDER BY record_id DESC LIMIT ? OFFSET ?";
         int pageSize = pageable.getPageSize();
         int pageNumber = pageable.getPageNumber();
         int offset = pageNumber * pageSize;

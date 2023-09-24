@@ -46,7 +46,6 @@ public class CompanyController {
         Pageable pageable = PageRequest.of(page, size);
         Page<CompanyData> companies = companyService.listPagedCompanies(pageable);
         List<CompanyData> clist = companies.getContent();
-        System.out.println(clist.get(0).getEstablishmentDate().getTime());
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
@@ -115,7 +114,6 @@ public class CompanyController {
 
     @PostMapping("/create")
     public ResponseEntity<Integer> insertCompany(@RequestBody CompanyData companyData) throws UnsupportedEncodingException {
-        LoggingUtils.logInfo("==================> insertCompany <====================");
         companyService.insertCompany(companyData);
         LoggingUtils.logInfo(companyData.toString());
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -124,8 +122,6 @@ public class CompanyController {
     @PostMapping("/update")
     public ResponseEntity<Void> updateCompany(@RequestBody CompanyData companyData) {
         try {
-            LoggingUtils.logInfo("==================> updateCompany <====================");
-            LoggingUtils.logInfo(companyData.toString());
             companyService.updateCompany(companyData);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (CompanyNotFoundException e) {
