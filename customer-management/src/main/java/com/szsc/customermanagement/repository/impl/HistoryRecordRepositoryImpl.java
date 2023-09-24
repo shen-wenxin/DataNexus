@@ -108,7 +108,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
     }
 
     private String convertOperationType(String type) {
-        
+
         switch (type) {
             case AppConfig.CODE_OPERATION_CREATE :
                 return AppConfig.TYPE_OPERATION_CREATE;
@@ -121,7 +121,7 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
         }
     }
 
-    
 
-    
+
+
 }

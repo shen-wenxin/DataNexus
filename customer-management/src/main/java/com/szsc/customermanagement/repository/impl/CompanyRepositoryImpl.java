@@ -175,7 +175,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
         String sql = "SELECT COUNT(*) FROM " + tableName;
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
-    
+
     @Override
     public int convertRegisteredLocation(String registeredLocation) {
 
@@ -203,11 +203,11 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 
 
-    
-   
 
 
 
-    
+
+
+
 
 }

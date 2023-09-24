@@ -16,7 +16,7 @@ public interface HistoryRecordRepository {
     void deleteById(int recordId);
 
     Page<HistoryRecord> listRecordByType(Pageable pageable, String type);
-    
+
     // 其他自定义方法
     // ...
 }

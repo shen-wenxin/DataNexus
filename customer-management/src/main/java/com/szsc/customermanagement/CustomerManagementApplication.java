@@ -27,14 +27,14 @@ public class CustomerManagementApplication implements CommandLineRunner {
         // 设置默认字符编码为 UTF-8
         System.setProperty("file.encoding", "UTF-8");
         Charset.defaultCharset();
-        
+
         SpringApplication.run(CustomerManagementApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        
+
         populator.setSqlScriptEncoding("UTF-8");
         populator.addScript(new ClassPathResource("create_table.sql"));
         DatabasePopulatorUtils.execute(populator, dataSource);

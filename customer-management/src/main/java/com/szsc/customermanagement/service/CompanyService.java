@@ -35,7 +35,7 @@ public interface CompanyService {
     List<Company> exportCompanies() throws IOException;
     LocationCountData countCompanyLocation();
 
-    
+
 
 
 }

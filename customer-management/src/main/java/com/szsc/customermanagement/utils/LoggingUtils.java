@@ -16,6 +16,6 @@ public class LoggingUtils {
     }
 
     // other log record method
-    
-    
+
+
 }

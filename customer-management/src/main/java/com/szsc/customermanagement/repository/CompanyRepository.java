@@ -19,7 +19,7 @@ public interface CompanyRepository {
     List<Company> listCompaniesByType(String companyType);
 
     List<Company> listCompaniesByUnifiedSocialCredit(String UnifiedSocialCredit);
-    
+
 
     void save(Company company);
 
