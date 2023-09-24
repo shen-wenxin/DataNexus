@@ -1,7 +1,10 @@
 package com.szsc.customermanagement.service.impl;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.szsc.customermanagement.config.AppConfig;
 import com.szsc.customermanagement.domain.CompanyData;
+import com.szsc.customermanagement.utils.CompanyMapper;
 import com.szsc.customermanagement.utils.LoggingUtils;
 import com.szsc.customermanagement.utils.MapperUtils;
 import com.szsc.customermanagement.domain.LocationCountData;
@@ -13,6 +16,7 @@ import com.szsc.customermanagement.repository.CompanyRepository;
 import com.szsc.customermanagement.repository.HistoryRecordRepository;
 import com.szsc.customermanagement.service.CompanyService;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +25,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +45,9 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void insertCompany(CompanyData companyData) {
         LoggingUtils.logInfo("Begin to create Company.");
-        Company company = MapperUtils.INSTANCE.dtoToEntity(companyData);
+        LoggingUtils.logInfo("companyData: " + companyData.toString());
+        Company company = CompanyMapper.INSTANCE.companyDataToCompany(companyData);
+
         LoggingUtils.logInfo("company: " + company.toString());
 
         String companyCode = company.getCompanyCode();
@@ -53,18 +61,21 @@ public class CompanyServiceImpl implements CompanyService {
 
         }else {
             // not exist
+            LocalDateTime currentTime = LocalDateTime.now();
+
             companyRepository.save(company);
 
-            String companyOldStr = "";
-            String remarks = "";
             HistoryRecord record = HistoryRecord.builder()
                     .companyCode(companyCode)
                     .operationType(AppConfig.TYPE_OPERATION_CREATE)
                     .operator(AppConfig.ADMIN_OPERATOR)
+                    .operationTime(currentTime)
                     .modifiedField(AppConfig.TABLE_COMPANY_MAIN)
                     .oldValue("")
                     .newValue(company.toString())
                     .remark("").build();
+
+            historyRecordRepository.save(record);
         }
 
         LoggingUtils.logInfo("Company has been saved in database");
@@ -74,14 +85,24 @@ public class CompanyServiceImpl implements CompanyService {
     public void updateCompany(CompanyData companyData) throws CompanyNotFoundException{
         LoggingUtils.logInfo("Begin to update Company");
 
-        Company company = MapperUtils.INSTANCE.dtoToEntity(companyData);
+        Company company = CompanyMapper.INSTANCE.companyDataToCompany(companyData);
 
         String companyCode = company.getCompanyCode();
 
         try {
             Company companyOld = companyRepository.findByCode(companyCode);
+            LocalDateTime currentTime = LocalDateTime.now();
             companyRepository.update(company);
             String companyOldStr = companyOld.toString();
+            company.setCompanyId(companyOld.getCompanyId());
+
+            if(company.getEstablishmentDate().getTime() == companyOld.getEstablishmentDate().getTime()) {
+                // Eliminate differences caused by different formats.
+                company.setEstablishmentDate(companyOld.getEstablishmentDate());
+            }
+            if(company.getBusinessLicenseExpiry().getTime() == companyOld.getBusinessLicenseExpiry().getTime()) {
+                company.setBusinessLicenseExpiry(companyOld.getBusinessLicenseExpiry());
+            }
 
             String companyNewStr = company.toString();
 
@@ -89,6 +110,7 @@ public class CompanyServiceImpl implements CompanyService {
                     .companyCode(companyCode)
                     .operationType(AppConfig.TYPE_OPERATION_UPDATE)
                     .operator(AppConfig.ADMIN_OPERATOR)
+                    .operationTime(currentTime)
                     .modifiedField(AppConfig.TABLE_COMPANY_MAIN)
                     .oldValue(companyOldStr)
                     .newValue(companyNewStr)
@@ -117,10 +139,11 @@ public class CompanyServiceImpl implements CompanyService {
         }
         try{
             String CompanyOldStr = companyRepository.findByCode(companyCode).toString();
-
+            LocalDateTime currentTime = LocalDateTime.now();
             HistoryRecord record = HistoryRecord.builder()
                     .companyCode(companyCode)
                     .operationType(AppConfig.TYPE_OPERATION_DELETE)
+                    .operationTime(currentTime)
                     .operator(AppConfig.ADMIN_OPERATOR)
                     .modifiedField(AppConfig.TABLE_COMPANY_MAIN)
                     .oldValue(CompanyOldStr)
@@ -159,9 +182,9 @@ public class CompanyServiceImpl implements CompanyService {
         
         // 将分页结果转为CompanyDTO对象
         List<CompanyData> companyDataList = companyPage.getContent()
-            .stream()
-            .map(MapperUtils.INSTANCE::entityToDto)
-            .collect(Collectors.toList());
+                .stream()
+                .map(CompanyMapper.INSTANCE::companyToCompanyData)
+                .collect(Collectors.toList());
 
         LoggingUtils.logInfo(companyDataList.toString());
 
@@ -178,9 +201,9 @@ public class CompanyServiceImpl implements CompanyService {
 
         // 将分页结果转为CompanyDTO对象
         List<CompanyData> companyDataList = companyPage.getContent()
-        .stream()
-        .map(MapperUtils.INSTANCE::entityToDto)
-        .collect(Collectors.toList());
+                .stream()
+                .map(CompanyMapper.INSTANCE::companyToCompanyData)
+                .collect(Collectors.toList());
 
         LoggingUtils.logInfo(companyDataList.toString());
 
@@ -199,9 +222,9 @@ public class CompanyServiceImpl implements CompanyService {
         List<Company> companies = companyRepository.listCompaniesByUnifiedSocialCredit(unifiedSocialCredit);
         // 将分页结果转为CompanyDTO对象
         List<CompanyData> companyDataList = companies
-            .stream()
-            .map(MapperUtils.INSTANCE::entityToDto)
-            .collect(Collectors.toList());
+                .stream()
+                .map(CompanyMapper.INSTANCE::companyToCompanyData)
+                .collect(Collectors.toList());
 
         LoggingUtils.logInfo(companyDataList.toString());
 
@@ -243,7 +266,7 @@ public class CompanyServiceImpl implements CompanyService {
             if (companies.isEmpty()) {
                 break; // 没有更多数据，退出循环
             }
-            allCompanies.addAll(allCompanies);
+            allCompanies.addAll(companies);
 
             page++;
 
@@ -254,6 +277,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     }
+
+
 
 
 

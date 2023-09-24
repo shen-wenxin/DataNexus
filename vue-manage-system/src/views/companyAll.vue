@@ -326,12 +326,15 @@
 
 <script setup lang="ts" name="basetable">
 import { ref, reactive } from 'vue';
+
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Delete, Edit, Search, Plus, InfoFilled } from '@element-plus/icons-vue';
 import { deleteCompany, getAllCompanies, getCompaniesByRegisteredLocation, updateCompanyInfo, getCompanyByUnifiedSocialCredit, exportCompanies} from '../api/index';
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
+import 'moment/locale/zh-cn';
 import router from '../router';
 import * as XLSX from 'xlsx';
+import moment from 'moment';
 
 interface TableItem {
   companyCode: string;
@@ -343,7 +346,7 @@ interface TableItem {
   registeredAddress: string;
   registeredPhone: string;
   companyEmail: string;
-  establishmentDate: string; // 根据实际情况选择合适的日期格式
+  establishmentDate: Date; // 根据实际情况选择合适的日期格式
   registeredCapital: number;
   legalRepresentativeName: string;
   legalRepresentativePhone: string;
@@ -359,7 +362,7 @@ interface TableItem {
   province: string;
   city: string;
   businessLicenseNumber: string;
-  businessLicenseExpiry: string; // 根据实际情况选择合适的日期格式
+  businessLicenseExpiry: Date; // 根据实际情况选择合适的日期格式
   primaryContactName: string;
   primaryContactPosition: string;
   primaryContactPhone: string;
@@ -380,9 +383,15 @@ const getCompanyData = (page: number, size: number) => {
     getAllCompanies(page, size)
     .then(response => {
       const data = response.data; 
-
-      console.log('data:', data);
       tableData.value = data.content
+      console.log(data)
+      
+    for (const item of tableData.value) {
+            item.establishmentDate = moment(item.establishmentDate).locale('zh-cn').toDate();
+            item.businessLicenseExpiry = moment(item.businessLicenseExpiry).locale('zh-cn').toDate();
+
+     
+    }
       pageTotal.value = data.totalElements || 0; 
     })
     .catch(error => {
@@ -398,6 +407,8 @@ const getCompanyDataByRegisteredLocation = (page: number, size: number, location
 
         console.log('data:', data);
         tableData.value = data.content;
+
+
         pageTotal.value = data.totalElements || 0; 
     })
     .catch(error => {
@@ -511,6 +522,9 @@ const getCompanyDataByUnifiedSocialCredit = (code: string) => {
     .then(response => {
         const data = response.data; 
         tableData.value = data;
+        for (const item of tableData.value) {
+            console.log("time: ", item.businessLicenseExpiry)
+        }
         pageTotal.value = data.totalElements || 0; 
     })
     .catch(error => {
@@ -634,6 +648,8 @@ const viewVisible = ref(false);
 const handleView = (index: number, row: any) => {
     idx = index;
     Object.assign(form, row); // 将行数据赋值给表单对象
+    form.establishmentDate = moment(form.establishmentDate).locale('zh-cn').format('YYYY年MM月DD日');
+    form.businessLicenseExpiry = moment(form.businessLicenseExpiry).locale('zh-cn').format('YYYY年MM月DD日');
     viewVisible.value = true;
 
 };
@@ -649,6 +665,9 @@ const saveEdit = () => {
             ElMessage.error(`请输入正确的电话`);
             return ;
         }
+
+
+
         // 将注册地转换为数字
         let registeredLocationValue = "0";
         if (form.registeredLocation === "中国香港"){
@@ -657,6 +676,10 @@ const saveEdit = () => {
             registeredLocationValue = "2";
         } 
         form.registeredLocation = registeredLocationValue;
+
+        console.log("get here")
+        console.log(form.establishmentDate);
+        console.log(form.businessLicenseExpiry);
 
 
         updateCompanyInfo(form)

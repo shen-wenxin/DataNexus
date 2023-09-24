@@ -29,28 +29,31 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
     @Override
     public Page<HistoryRecord> listRecords(Pageable pageable) {
         String countSql = "SELECT COUNT(*) FROM " + tableName;
-        int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class);
-        String selectSql = "SELECT * FROM " + tableName + " LIMIT ? OFFSET ?";
+        Integer totalElements = jdbcTemplate.queryForObject(countSql, Integer.class);
+
+        int totalElementsNonNull = totalElements != null ? totalElements : 0;
+
+        String selectSql = "SELECT * FROM " + tableName + " ORDER BY operation_time DESC LIMIT ? OFFSET ?";
         int pageSize = pageable.getPageSize();
         int pageNumber = pageable.getPageNumber();
         int offset = pageNumber * pageSize;
         List<HistoryRecord> historyRecords = jdbcTemplate.query(selectSql, new BeanPropertyRowMapper<>(HistoryRecord.class), pageSize, offset);
-        return new PageImpl<>(historyRecords, pageable, totalElements);
+        return new PageImpl<>(historyRecords, pageable, totalElementsNonNull);
     }
 
     @Override
     public Page<HistoryRecord> listRecordByCode(Pageable pageable, String code) {
         String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE company_code = ?";
-        int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, code);
-
-        String selectSql = "SELECT * FROM " + tableName + " WHERE company_code = ? LIMIT ? OFFSET ?";
+        Integer totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, code);
+        int totalElementsNonNull = totalElements != null ? totalElements : 0;
+        String selectSql = "SELECT * FROM " + tableName + " WHERE company_code = ? ORDER BY operation_time DESC LIMIT ? OFFSET ?";
         int pageSize = pageable.getPageSize();
         int pageNumber = pageable.getPageNumber();
         int offset = pageNumber * pageSize;
 
         List<HistoryRecord> records = jdbcTemplate.query(selectSql, new BeanPropertyRowMapper<>(HistoryRecord.class), code, pageSize, offset);
 
-        return new PageImpl<>(records, pageable, totalElements);
+        return new PageImpl<>(records, pageable, totalElementsNonNull);
     }
 
     @Override
@@ -58,16 +61,17 @@ public class HistoryRecordRepositoryImpl implements HistoryRecordRepository {
         String operation = convertOperationType(type);
 
         String countSql = "SELECT COUNT(*) FROM " + tableName + " WHERE operation_type = ?";
-        int totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, operation);
+        Integer totalElements = jdbcTemplate.queryForObject(countSql, Integer.class, operation);
+        int totalElementsNonNull = totalElements != null ? totalElements : 0;
 
-        String selectSql = "SELECT * FROM " + tableName + " WHERE operation_type = ? LIMIT ? OFFSET ?";
+        String selectSql = "SELECT * FROM " + tableName + " WHERE operation_type = ? ORDER BY operation_time DESC LIMIT ? OFFSET ?";
         int pageSize = pageable.getPageSize();
         int pageNumber = pageable.getPageNumber();
         int offset = pageNumber * pageSize;
 
         List<HistoryRecord> records = jdbcTemplate.query(selectSql, new BeanPropertyRowMapper<>(HistoryRecord.class), operation, pageSize, offset);
 
-        return new PageImpl<>(records, pageable, totalElements);
+        return new PageImpl<>(records, pageable, totalElementsNonNull);
     }
 
 

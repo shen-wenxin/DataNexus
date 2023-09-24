@@ -42,8 +42,4 @@ public class CompanyData {
     private String primaryContactPhone;
     private String primaryContactEmail;
 
-
-
-
-
 }

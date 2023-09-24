@@ -3,7 +3,6 @@ package com.szsc.customermanagement.repository.impl;
 import com.szsc.customermanagement.entity.Company;
 import com.szsc.customermanagement.exception.CompanyNotFoundException;
 import com.szsc.customermanagement.repository.CompanyRepository;
-import com.szsc.customermanagement.utils.LoggingUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

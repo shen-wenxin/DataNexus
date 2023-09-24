@@ -67,17 +67,17 @@ const items = [
     {
         icon: 'DocumentCopy',
         index: '1',
-        title: '表格相关',
+        title: '信息管理',
         permiss: '2',
         subs: [
             {
                 index: '/companies',
-                title: '管理公司信息',
+                title: '公司信息管理',
                 permiss: '2',
             },
             {
                 index: '/history-record',
-                title: '查看历史纪录',
+                title: '历史记录查询',
                 permiss: '1'
             },
         ],
@@ -86,7 +86,7 @@ const items = [
     {
         icon: 'Edit',
         index: '/CompanyAdd',
-        title: '新增公司',
+        title: '公司信息录入',
         permiss: '4',
     },
 ];

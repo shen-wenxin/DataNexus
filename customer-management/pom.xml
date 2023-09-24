@@ -76,8 +76,6 @@
 	<dependency>
 		<groupId>org.projectlombok</groupId>
 		<artifactId>lombok</artifactId>
-		<version>1.18.20</version>
-		<scope>provided</scope>
 	</dependency>
 	<dependency>
 		<groupId>com.alibaba</groupId>
@@ -85,10 +83,14 @@
 		<version>3.0.5</version>
 	</dependency>
 	</dependencies>
-	
+
+
+	<!-- 其他依赖和配置 -->
 
 	<build>
+		<defaultGoal>install</defaultGoal>
 		<plugins>
+			<!-- Maven Compiler插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -97,6 +99,11 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.20</version>
+						</path>
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
@@ -107,5 +114,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<!-- 其他依赖和配置 -->
 
 </project>

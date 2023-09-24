@@ -12,10 +12,11 @@ import com.szsc.customermanagement.enums.LocationEnum;
 @AllArgsConstructor
 @ToString
 @Builder
+@Data
 public class HistoryRecord {
     @Builder.Default
     @ExcelProperty("记录ID")
-    private Long recordId = null; // 主键字段
+    private Long recordId = 0L; // 主键字段
 
     @NonNull
     @ExcelProperty("公司代码")

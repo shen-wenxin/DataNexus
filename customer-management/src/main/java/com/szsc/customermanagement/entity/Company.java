@@ -3,14 +3,13 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import lombok.*;
 import com.szsc.customermanagement.enums.LocationEnum;
-@Getter
-@Setter
+
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Data
 public class Company {
     @ExcelIgnore // 忽略Excel导入导出
     private Long companyId; // 主键字段
@@ -44,7 +43,7 @@ public class Company {
 
     @ExcelProperty("成立日期")
     @DateTimeFormat("yyyy-MM-dd")
-    private String establishmentDate;
+    private Date establishmentDate;
 
     @ExcelProperty("注册资本")
     private BigDecimal registeredCapital;
@@ -92,7 +91,8 @@ public class Company {
     private String businessLicenseNumber;
 
     @ExcelProperty("营业执照到期日")
-    private String businessLicenseExpiry;
+    @DateTimeFormat("yyyy-MM-dd")
+    private Date businessLicenseExpiry;
 
     @ExcelProperty("主要联系人姓名")
     private String primaryContactName;

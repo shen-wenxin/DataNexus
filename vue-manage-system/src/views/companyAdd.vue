@@ -242,7 +242,7 @@ const form = reactive({
     registeredAddress: '',
     registeredPhone: '',
     companyEmail:'',
-    establishmentDate: '',
+    establishmentDate:'',
     registeredCapital: '',
     legalRepresentativeName: '',
     legalRepresentativePhone:'',
@@ -280,6 +280,12 @@ const onSubmit = (formEl: FormInstance | undefined) => {
                 registeredLocationValue = "2";
             } 
             form.registeredLocation = registeredLocationValue;
+            console.log("add company")
+
+            console.log("time check1", form.establishmentDate);
+            console.log("time check2", form.businessLicenseExpiry);
+
+            
 
             request.post('http://localhost:8080/companies/create', form)
                 .then(response => {
