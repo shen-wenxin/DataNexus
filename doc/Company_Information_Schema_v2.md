@@ -15,7 +15,7 @@
 |registered_address|	VARCHAR(200)|	公司详细注册地址|
 |registered_phone|	VARCHAR(20)|	注册电话|
 |company_email|	VARCHAR(100)|	公司邮箱|
-|establishment_date|	DATE|成立时间|
+|establishment_date|	DATETIME|成立时间|
 |registered_capital|	DECIMAL(18,2)|	注册资本|
 |legal_representative_name|	VARCHAR(100)|	法定代表人姓名|
 |legal_representative_phone	|VARCHAR(20)	|法定代表人联系电话|
@@ -31,7 +31,7 @@
 |province	|VARCHAR(50)	|所在省份|
 |city	|VARCHAR(50)	|所在城市|
 |business_license_number	|VARCHAR(50)	|营业执照编号|
-|business_license_expiry|	DATE|	营业执照有效期|
+|business_license_expiry|	DATETIME|	营业执照有效期|
 |primary_contact_name	|VARCHAR(100)	|主要联系人姓名|
 |primary_contact_position	|VARCHAR(50)	|主要联系人职务|
 |primary_contact_phone	|VARCHAR(20)	|主要联系人电话|
