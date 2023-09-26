@@ -51,7 +51,7 @@ mvn spring-boot:run // 正常来说会占用8080端口
 │                  └── customermanagement
 │                      ├── config
 │                      ├── controller
-│                      ├── dto
+│                      ├── domain
 │                      ├── entity
 │                      ├── exception
 │                      ├── repository
@@ -65,7 +65,7 @@ mvn spring-boot:run // 正常来说会占用8080端口
 
 - config：包含项目的配置类，用于配置和初始化应用程序的各种设置。
 - controller：包含控制器类，用于处理请求和响应，将请求转发到适当的服务进行处理并返回响应。
-- dto：包含数据传输对象（DTO）类，用于在不同层之间传递数据，用于在控制器和服务之间进行数据传递和转换。
+- domain：定义与业务逻辑相关的类，如业务对象、值对象。 
 - entity：包含实体类，用于表示数据模型和实体，在数据库中存储和检索数据。
 - exception：包含自定义异常类，用于处理项目中的异常情况并进行适当的异常处理和响应。
 - repository：包含仓库类，用于与数据存储（如数据库）进行交互，执行数据的持久化和检索操作。
